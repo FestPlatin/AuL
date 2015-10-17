@@ -1,0 +1,94 @@
+\documentclass[a4paper,10pt]{scrreprt}
+\usepackage[utf8x]{inputenc}
+\usepackage[ngerman]{babel}			% deutsche Silbentrennung
+\usepackage{listings}				% Codeblock einbinden
+\usepackage{color}					% Farbe einbinden
+\usepackage{hyperref}				% Hyperlinks hervorheben
+\usepackage{tikz}					% Zeichnen
+\usepackage{tikz-qtree}				% speziell Zeichen von Bäumen
+\usepackage{pgfplots}				% TODO Irgendwas zum zeichnen
+\usepackage{makeidx}				% Stichwortverzeichnis einbinden
+\usepackage{framed}					% Rahmen für Definitinen
+\usepackage{amssymb}   				% Mathematische Symbole und Zeichen
+\usepackage{amsmath}   				% Mathematische Symbole und Zeichen
+\usepackage{subfig}
+\usepackage{adjustbox}
+\usepackage{algpseudocode} 
+\definecolor{javared}{rgb}{0.6,0,0} % for strings
+\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
+\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
+\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
+\definecolor{shadecolor}{gray}{0.9}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.2cm}
+
+\usetikzlibrary{arrows,calc}
+\usetikzlibrary{shapes.misc}		% Durchgetichene Nodes
+	\usetikzlibrary{positioning}
+\tikzset{
+	%Define standard arrow tip
+	>=stealth',
+	%Define style for different line styles
+	help lines/.style={dashed, thick},
+	axis/.style={<->},
+	important line/.style={thick},
+	connection/.style={thick, dotted},
+}
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+\newcommand\Punkt{\tikz[scale=0.07]\draw[thick](-1,-1)--(1,1)(-1,1)--(1,-1);} 
+\lstset{
+	language=Java,
+	frame=lines, 				% Oberhalb und unterhalb des Listings ist eine Linie
+	captionpos=b,                    % sets the caption-position to bottom
+	keywordstyle=\color{javapurple}\bfseries,
+	stringstyle=\color{javared},
+	commentstyle=\color{javagreen},
+	morecomment=[s][\color{javadocblue}]{/**}{*/},
+	numbers=left,
+	numberstyle=\tiny\color{black},
+	numbersep=10pt,
+	tabsize=4,
+	showspaces=false,
+	showstringspaces=false}
+
+
+\tikzset{ none/.style={draw=none} }
+\tikzstyle{EndPoint} = [circle, minimum width=4pt,fill, inner sep=0pt]
+\tikzstyle{state} = [circle,draw, minimum width=4pt]
+\tikzset{cross/.style={cross out, draw=red, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt},cross/.default={1pt}}
+\tikzstyle{zigzag} = [->,line join=round, decorate, decoration={zigzag, segment length=4, amplitude=1.8, post=lineto, post length=4pt}]
+\tikzset{emission/.style={rectangle, draw, inner sep=2pt, minimum size=16pt, node distance=50pt}}
+
+% Stichwortverzeichnis erstellen
+\makeindex
+% Title Page
+
+\title{Algorithmen und Lernverfahren}
+\subtitle{Vorlesung von Prof. Dr. Boris Hollas}
+\author{Kay Förster}
+\date{\today}
+
+\usepackage{array}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+
+
+% Dokument Anfang
+\begin{document}
+\maketitle
+
+%Inhaltsverzeichnis anzeigen
+\tableofcontents
+
+\include{Kapitel-01}
+\include{Kapitel-02}
+\include{Kapitel-03}
+\include{Kapitel-04}
+\include{Kapitel-05}
+\include{Kapitel-06}
+\include{Kapitel-07}
+
+\end{document}
+

@@ -1,0 +1,202 @@
+\chapter{O-Notation, Laufzeitanalyse}
+Man kann den Zeitaufwand von Algorithmen nicht eindeutig bestimmen.
+Viel zu viele Faktoren (Hardware, parallel laufende Programme, Eingabereihenfolge, \dots) spielen eine Rolle, so dass man mit normalen Mitteln niemals eine genaue und allgemeine Aussage über die benötigte Zeit machen kann.
+Es werden nun nicht mehr die benötigten Zeiten, sondern die benötigten ``greifbaren'' Schritte bei einer bestimmten Eingabelänge n beschrieben.
+Somit können Programme in Klassen (konstant, logarithmisch, lineas, polynomial, exponentiell, u.a.) eingeteilt werden.
+
+\section{O-Notation}
+Ziel der \(\mathcal{O}\)-Notation ist es die maximale Laufzeit (Worst Case Laufzeit) eines Algorithmuses zu messen.
+\begin{shaded}
+	\noindent
+	\textbf{Def.:} \(\mathcal{O}(f) = \{ g\:|\) Es gibt ein \(n_{0} \in \mathbb{N}\) und mit \(c > 0\)
+		\[0\leq g(n)\leq c*f(n)\] 
+		für alle \( c\geq n_0\)\}
+\end{shaded}
+
+\begin{figure}[htbp]
+	\begin{center}
+		\begin{tikzpicture}[
+				%We set the scale and define some styles
+				scale=1.5,
+				axis/.style={very thick, ->, >=stealth'},
+				important line/.style={thick},
+				dashed line/.style={dashed, thick},
+				every node/.style={color=black,}
+			]
+			
+			% Important coordinates are defined
+			\coordinate (x11) at (0,0);
+			\coordinate (x12) at (2,1.5);
+			\coordinate (x21) at (0,0.2);
+			\coordinate (x22) at (2.5,1.3);
+		
+			\begin{scope}
+			\shade[top color=white, bottom color=red]
+			(x12) parabola bend (0,0) (2,0);
+			\end{scope}
+
+			
+			% axis
+			\draw[axis] (0,0)  -- (3,0) node(xline)[right] {n};
+			\draw[axis] (0,0) -- (0,2) node(yline)[above] {};
+			
+			% J curve is drawn
+			\draw[important line]
+			(x11) parabola (x12) node[above] {$c \cdot f$}
+			(x21) parabola (x22) node[right] {g};
+
+			\draw[dashed line] (1.8,.3) -- (2.5,.5) node[right] {$\mathcal{O}(f)$};
+			\draw[thick] (1,.38) circle (1.5pt) node[above] {$n_{0}$};
+		\end{tikzpicture}
+	\end{center}
+	\label{img:ONotation}
+	\caption{Grafische Darstellung der \(\mathcal{O}\)-Funktion}
+\end{figure}
+\newpage
+Es gelten folgende Rechenregeln:
+\begin{itemize}
+	\item \(\mathcal{O}(f) + \mathcal{O}(g) = \mathcal{O}(\max\{f,g\})\)
+	\item \(\mathcal{O}(f) + \mathcal{O}(f) = \mathcal{O}(f)\)
+	\item \(\mathcal{O}(f) \cdot \mathcal{O}(g) = \mathcal{O}(f \cdot g)\)
+	\item \(\mathcal{O}(c \cdot f) = \mathcal{O}(f)\) (für alle \(c \geq 0)\)
+	\item \(f \leq g \Rightarrow \mathcal{O}(f) \leq \mathcal{O}(g)\)
+	\item \(\mathcal{O}(c) = \mathcal{O}(1)\)
+	\item \(c = \mathcal{O}(1)\)
+\end{itemize}
+
+\subsubsection{Beispiel}
+Es soll die Laufzeit der lineare Suche berechnet werden.
+\begin{lstlisting}[language=java, caption={Pseudocode zur Berechnung der Laufzeit}]
+for (k := 1 to n)
+{
+	if (a[k] == gesuchter Wert)
+		return true;
+}
+return false;
+\end{lstlisting}
+Lösung:
+\begin{eqnarray*}
+	LZ	&\leq& n \cdot c_{1} + c_{2} \\
+		&\leq& n \cdot c + c  \textrm{ wobei } c= \max\{c_{1},c_{2}\} \\
+		&\leq& n \cdot c + n \cdot c	\\
+		&=& 2c \cdot n \in \mathcal{O}(n)
+\end{eqnarray*}
+
+\subsubsection{Übung}
+Berechnen Sie die Laufzeit des folgenden Codes:
+\begin{lstlisting}[language=java, caption={Pseudocode zur Berechnung der Laufzeit}]
+for (k := 1 to n-1)
+	for (l := k+1 to n)
+		if (a[k] == a[l])
+			return true;
+return false;
+\end{lstlisting}
+Lösung
+\begin{eqnarray*}
+	LZ	&\leq& \binom{n}{2} \cdot c + c' \\
+		&\leq& \binom{n}{2} \cdot c + \binom{n}{2} \\
+		&=& \binom{n}{2}(c+1)	\\
+		&=& \frac{n(n-1)}{2}(c+1)	\\
+\curvearrowright LZ &\leq& n^{2} \cdot \frac{c+1}{2} \in \mathcal{O}(n^{2})
+\end{eqnarray*}
+Eine alternative Herleitung der Lösung:
+\begin{eqnarray*}
+	LZ \leq \mathcal{O}(n^{2}) \cdot \mathcal{O}(1) + \mathcal{O}(1) &=& \mathcal{O}(n^{2} \cdot 1) + \mathcal{O}(1)	\\
+		&=& \mathcal{O}(n^{2})
+\end{eqnarray*}
+
+
+\section{Omega-Notation}
+\label{sec:OmegaNotation}
+Die Omega-Notation beschreibt die untere Schranke, d.h. wie lange ein Algorithmus bzw. ein Programm mindestens läuft (Best Case Laufzeit).
+\begin{shaded}
+	\noindent
+	\textbf{Def.:} \(\Omega(f) = \{ g \:|\) Es gibt ein \(c > 0\), sodass \(g(n) \geq c \cdot f(n)\) für alle großen \(n\) gilt.\(\}\)
+\end{shaded}
+
+\begin{figure}[htbp]
+	\begin{center}
+		\begin{tikzpicture}[
+				%We set the scale and define some styles
+				scale=1.5,
+				axis/.style={very thick, ->, >=stealth'},
+				important line/.style={thick},
+				dashed line/.style={dashed, thick},
+				every node/.style={color=black,}
+			]
+			
+			% Important coordinates are defined
+			\coordinate (x11) at (0,0);
+			\coordinate (x12) at (2,1.5);
+			
+			\begin{scope}
+			\shade[top color=white, bottom color=red]
+			(x12) parabola bend (0,0) (0,1.5);
+			\end{scope}
+			
+			% axis
+			\draw[axis] (0,0)  -- (3,0) node(xline)[right] {n};
+			\draw[axis] (0,0) -- (0,2) node(yline)[above] {};
+			
+			% J curve is drawn
+			\draw[important line]
+			(x11) parabola (x12) node[above] {$c \cdot f$};
+
+			\draw[dashed line] (1,1.3) -- (1,1.7) node[above] {$\Omega(f)$};
+		\end{tikzpicture}
+	\end{center}
+	\label{img:OmegaNotation}
+	\caption{Grafische Darstellung der Omega-Funktion}
+\end{figure}
+
+\newpage
+\section{Theta-Notation}
+\label{sec:ThetaNotation}
+Die Theta-Notation dient dazu, gleichzeitg eine obere und eine untere Schranke zu definieren.
+\begin{shaded}
+	\noindent
+	\textbf{Def.:} \( \Theta(f) = \{ \mathcal{O} \cap \Omega(f)\}\)
+\end{shaded}
+\begin{figure}[htbp]
+	\begin{center}
+		\begin{tikzpicture}[
+				%We set the scale and define some styles
+				scale=1.5,
+				axis/.style={very thick, ->, >=stealth'},
+				important line/.style={thick},
+				dashed line/.style={dashed, thick},
+				every node/.style={color=black,}
+			]
+			
+			% Important coordinates are defined
+			\coordinate (x11) at (0,0);
+			\coordinate (x12) at (1.5,1.5);
+			\coordinate (x22) at (2.5,1.5);
+			
+			\begin{scope}
+				\shade[top color=white, bottom color=red]
+					(x22) parabola bend (0,0) (x12);
+			\end{scope}
+			
+			% axis
+			\draw[axis] (0,0)  -- (3,0) node(xline)[right] {n};
+			\draw[axis] (0,0) -- (0,2) node(yline)[above] {};
+			
+			% J curve is drawn
+			\draw[important line]
+			(x11) parabola (x12) node[above] {$c_{1} \cdot f$};
+			\draw[important line]
+			(x11) parabola (x22) node[above] {$c_{2} \cdot f$};
+
+			\draw[dashed line] (1.5,.8) -- (2.3,.8) node[right] {$\Theta(f))$};
+		\end{tikzpicture}
+	\end{center}
+	\label{img:Theta}
+	\caption{Grafische Darstellung der Theta-Funktion}
+\end{figure}
+
+\subsubsection{Übung}
+Zeigen Sie das \(\frac{n(n+1)}{2} \in \Theta(n^{2})\) liegt.
+\[\mathcal{O}(\frac{n(n+1)}{2}) = \mathcal{O}(n(n+1)) = \mathcal{O}(n) \cdot \mathcal{O}(n+1) = \mathcal{O}(n) \cdot \mathcal{O}(n) = \mathcal{O}(n^{2})\]
+\[\frac{n(n+1)}{2} \geq \frac{n^{2}}{2} \in \Theta(n^{2})\]
+\[\curvearrowright \mathcal{O}(n^{2}) \cap \Theta(n^{2}) = \Omega(n^{2})\]

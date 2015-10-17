@@ -1,0 +1,157 @@
+\chapter{Graphalgorithmen}
+Aus der Vorlesung Künstliche Intelligenz sind bereits die Algorithmen Breiten- und Tiefensuche bekannt.
+\begin{lstlisting}[language=java, caption={Beispiel Algorithmus für die Breitensuche}]
+boolean bfs(start, goal) {
+
+	// Anfangs sind keine Knoten besucht
+	for(v in V)
+		discovered[v] = false;
+	
+	// Mit Start-Knoten beginnen
+	queue.enqueue(start)
+	discovered[start] = true;
+	
+	while(!queue.isEmpty()){
+		// Erstes Element von der queue nehmen
+		u = queue.dequeue;
+		
+		// Testen ob Zielknoten gefunden
+		if(u == goal)
+			return true;
+
+		// alle Nachfolge-Knoten, ...
+		for(v in adj[u]))
+			// ... die noch nicht besucht wurden ...
+			if(!discovered[v]){
+				// ... zur queue hinzufuegen ...
+				queue.enqueue(v);
+				// ... und als bereits gesehen markieren
+				discovered[u] = true;
+			}
+	}
+	return false;
+}
+\end{lstlisting}
+
+Für dieses Beispiel fallen folgende Laufzeiten an:
+\begin{itemize}
+	\item Zeile 4-5: \(\mathcal{O}(|V|)\)
+	\item Zeile 8-9: \(\mathcal{O}(1)\)
+	\item Zeile 13-17: \(\mathcal{O}(1)\)
+	\item Zeile 20-27: \(\mathcal{O}(\deg(u))\)
+	\item Zeile 29: \(\mathcal{O}(1)\)
+\end{itemize}
+\(\deg(u)\) steht dabei für den Grad des Knotens (=Anzahl der Nachbarn).
+Ein Knoten \(v\) hat den Grad \(k\) wenn \(v\) mit genau \(k\) anderen Knoten verbunden ist.
+Wir schreiben dafür \(\deg(u) = k\).
+
+\begin{shaded}
+  \noindent
+  \textbf{Satz:} Die Laufzeit der Breitensuche liegt in \(\mathcal{O}(|V|+|E|)\).
+\end{shaded}
+Beweis:
+
+Das initialisieren des Feldes discovered benötigt die Zeit \(\mathcal{O}(|V|)\).
+Um die unbesuchten Nachbarn des Knotens \(u\) zu bestimmen fällt der Aufwand \(\mathcal{O}(\deg(u))\) an.
+Da jeder Knoten höchstens einmal aus der Warteschlange entnommen wird, wird auch die while Schleife für jeden Knoten höchstens einmal durchlaufen.
+Der gesamte Aufwand ist damit
+\[\mathcal{O}(|V|) + \sum\limits_{u \in V} \mathcal{O}(\deg(u) = \mathcal{O}(|V|) + \mathcal{O}(|E|) = \mathcal{O}(|V| + |E|)\]
+Die Tiefensuche lässt sich implentieren wie die Breitensuche, wenn anstelle der Warteschlange ein Stack verwendet wird.
+Die Laufzeit ist gleich der Breitensuche: \(\mathcal{O}(|V| + |E|)\).
+
+
+\section{Verallgemeinerung der A*-Suche}
+Hierbei wird eine heuristische Bewertungsfunktion \(f\) verwendet um Knoten einzusortieren.
+Die heuristische Bewertungsfunktion hat die Gestalt
+\[f(v) = g(v) + h(v)\]
+wobei
+\begin{itemize}
+	\item \(g(v)\) die Kosten bis zum Knoten v
+	\item \(h(v)\) eine zulässige Kostenschätzfunktion
+\end{itemize}
+sind.
+Eine Kostenschätzfunktion \(h\) ist zulässig, wenn sie die Kosten zum Ziel nicht überschätzt.
+
+\begin{figure}[htbp]
+	\begin{center}
+		\begin{tikzpicture}[node distance=2cm]
+			\draw (0,0) circle[radius=4pt] node[align=center, below, yshift=-4mm] {Start};
+			\draw (2,0) circle[radius=4pt] node[align=center, below, yshift=-4mm] {v};
+			\draw [zigzag] (0.2,0) -- (1.8,0);
+			\draw (4,0) circle[radius=4pt] node[align=center, below, yshift=-4mm] {Ziel};
+			\draw [dotted] (2.2,0) -- (3.8,0);
+			\draw[thick,decorate,decoration={brace,amplitude=12pt}] (2,-.8) -- (0,-.8) node[midway,below, yshift=-12pt]{\(g(v)\)};
+			\draw[thick,decorate,decoration={brace,amplitude=12pt}] (4,-.8) -- (2,-.8) node[midway,below, yshift=-12pt]{\(h(v)\)};
+		\end{tikzpicture}
+	\end{center}
+\end{figure}
+Bei einer Navigation könnten die Funktionen wie folgt definiert sein:
+\begin{itemize}
+	\item \(g(v)\): Strecke von Start bis v
+	\item \(h(v)\): Luftlinieentfernung von v zum Ziel
+\end{itemize}
+
+\subsubsection{Übung}
+Für ein Streckennetz sind Entfernungen und durchschnittliche Geschwindigkeiten bekannt.
+Wie kann die schnellste Route von A nach B gefunden werden?
+\begin{itemize}
+	\item \(g(v)\): Zeit für Strecke von Start bis v (\(t=\frac{s}{v}\))
+	\item \(h(v)\): \(t=\frac{\textrm{Luftlinie bis zum Ziel}}{\textrm{maximale Geschwindigkeit der verbleibenden Kanten}}\)
+\end{itemize}
+
+
+\section{Topologisches Sortieren}
+\begin{shaded}
+  \noindent
+  \textbf{Def.:} Ein DAG (Directed acyclic graph) ist ein gerichteter Graph, der keine gerichteten Kreise enthält.
+		Eine topologische Sortierung eines DAG \(G = (V,E)\) ist eine Abbildung
+		\[f: V \rightarrow \mathbb{N} \textrm{ mit } f(u) < f(v) \textrm{ für } (u,v) \in E\]
+\end{shaded}
+\begin{figure}[htbp]
+	\begin{center}
+	 	\begin{tikzpicture}[sibling distance=5mm]
+			\node[state] (1) at (1,0) {1};
+			\node[state] (2) at (0,-1) {2};
+			\node[state] (3) at (2,-1) {4};
+			\node[state] (4) at (-1,-2) {4};
+			\draw[->] (1) -- (2);
+			\draw[->] (1) -- (3);
+			\draw[->] (2) -- (3);
+			\draw[->] (2) -- (4);
+		\end{tikzpicture}
+		\caption{Beispiel für ein Directed acyclic graph (DAG)}
+	\end{center}
+\end{figure}
+
+Jeder vollständige Graph oder Kreis lässt sich nicht topologisch sortieren.
+Eine topologische Sortierung kann durch eine Tiefensuche bestimmt werden.
+\newpage
+\begin{lstlisting}[language=java]
+topsort:
+	for (v in V)
+		markiere v mit weiss
+	for (v in V)
+		tiefensuche(v)
+
+tiefensuche(v):
+	v grau:
+		Fehler("Kreis vorhanden")
+	v weiss:
+		markiere v mit grau
+		for (u in adj[v])
+			tiefensuche(u)
+		markiere v mit schwarz
+		fuege v an den Kopf einer Liste
+\end{lstlisting}
+
+
+\begin{shaded}
+  \noindent
+  \textbf{Satz:} Für jeden DAG \(G=(V,E)\) erzeugt Topsort eine topologische Sortierung von \(G\).
+\end{shaded}
+
+\subsubsection{Beweis}
+Sei \((u,v) \in E\).
+In u und in v werden je eine Tiefensuche gestartet.
+Die in v gestartete Tiefensuche endet früher als die in u gestartete Tiefensuche.
+Daher wird u links von v in die Liste eingefügt und erhält daher eine kleinere Nummer als v.
