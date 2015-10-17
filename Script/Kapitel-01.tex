@@ -5,14 +5,37 @@ Es werden nun nicht mehr die benötigten Zeiten, sondern die benötigten ``greif
 Somit können Programme in Klassen (konstant, logarithmisch, lineas, polynomial, exponentiell, u.a.) eingeteilt werden.
 
 \section{O-Notation}
-Ziel der \(\mathcal{O}\)-Notation ist es die maximale Laufzeit (Worst Case Laufzeit) eines Algorithmuses zu messen.
+Wir verwenden die \(\mathcal{O}\)-Notation um die Laufzeit und den Platzbedarf von Algorithmen anzugeben.
+Dazu betrachten wir die maximale Anzahl Schritte, die ein Algorithmus ausführt.
+
+\subsubsection{Beispiel}
+Es soll die Laufzeit der lineare Suche berechnet werden.
+\begin{lstlisting}[language=java, caption={Pseudocode zur Berechnung der Laufzeit}]
+for (k := 1 to n) {
+	if (a[k] == gesuchter Wert)
+		return true;
+}
+return false;
+\end{lstlisting}
+Lösung:
+\begin{eqnarray*}
+	LZ	&\leq& n \cdot c_{1} + c_{2} \\
+		&\leq& n \cdot c + c  \textrm{ wobei } c= \max\{c_{1},c_{2}\} \\
+		&\leq& n \cdot c + n \cdot c	\\
+		&=& 2c \cdot n \in \mathcal{O}(n)
+\end{eqnarray*}
+Die Laufzeit der linearen Suche ist \(\leq c \cdot n\), wobei \(c\) eine Konstante ist, die von der Implentierung und dem Computer abhängt.
+
 \begin{shaded}
 	\noindent
-	\textbf{Def.:} \(\mathcal{O}(f) = \{ g\:|\) Es gibt ein \(n_{0} \in \mathbb{N}\) und mit \(c > 0\)
-		\[0\leq g(n)\leq c*f(n)\] 
-		für alle \( c\geq n_0\)\}
+	\textbf{Def.:} Für eine Funktion \(f \geq 0\) ist \(\mathcal{O}(f)\) die Menge aller Funktionen \(g\) mit 
+		\[0 \leq g(n) \leq c \cdot f(n)\] 
+		für eine Konstante \(c > 0\) für alle hinreichend großen \(n\).
+		
+		\(\mathcal{O}(f) = \{ g\:|\: 0 \leq g(n) \leq c \cdot f(n)\) für ein \(c > 0\) und allen großen \(n \in \mathcal{N}\}\)
 \end{shaded}
-
+Die \(\mathcal{O}\)-Notation stellt somit die maximale Laufzeit (Worst Case Laufzeit) eines Algorithmuses dar.
+Die Funktion \(g(n)\) ist die konkrete Laufzeit einer gegebenen Implentierung.
 \begin{figure}[htbp]
 	\begin{center}
 		\begin{tikzpicture}[
@@ -35,7 +58,6 @@ Ziel der \(\mathcal{O}\)-Notation ist es die maximale Laufzeit (Worst Case Laufz
 			(x12) parabola bend (0,0) (2,0);
 			\end{scope}
 
-			
 			% axis
 			\draw[axis] (0,0)  -- (3,0) node(xline)[right] {n};
 			\draw[axis] (0,0) -- (0,2) node(yline)[above] {};
@@ -52,34 +74,24 @@ Ziel der \(\mathcal{O}\)-Notation ist es die maximale Laufzeit (Worst Case Laufz
 	\label{img:ONotation}
 	\caption{Grafische Darstellung der \(\mathcal{O}\)-Funktion}
 \end{figure}
-\newpage
+
 Es gelten folgende Rechenregeln:
 \begin{itemize}
 	\item \(\mathcal{O}(f) + \mathcal{O}(g) = \mathcal{O}(\max\{f,g\})\)
-	\item \(\mathcal{O}(f) + \mathcal{O}(f) = \mathcal{O}(f)\)
+	\item \(\mathcal{O}(f) + \mathcal{O}(g) = \mathcal{O}(f + g)\)
 	\item \(\mathcal{O}(f) \cdot \mathcal{O}(g) = \mathcal{O}(f \cdot g)\)
 	\item \(\mathcal{O}(c \cdot f) = \mathcal{O}(f)\) (für alle \(c \geq 0)\)
-	\item \(f \leq g \Rightarrow \mathcal{O}(f) \leq \mathcal{O}(g)\)
+	\item \(f \leq g \Rightarrow \mathcal{O}(f) \subseteq \mathcal{O}(g)\)
 	\item \(\mathcal{O}(c) = \mathcal{O}(1)\)
 	\item \(c = \mathcal{O}(1)\)
 \end{itemize}
 
-\subsubsection{Beispiel}
-Es soll die Laufzeit der lineare Suche berechnet werden.
-\begin{lstlisting}[language=java, caption={Pseudocode zur Berechnung der Laufzeit}]
-for (k := 1 to n)
-{
-	if (a[k] == gesuchter Wert)
-		return true;
-}
-return false;
-\end{lstlisting}
-Lösung:
+
+\subsubsection{Übung}
 \begin{eqnarray*}
-	LZ	&\leq& n \cdot c_{1} + c_{2} \\
-		&\leq& n \cdot c + c  \textrm{ wobei } c= \max\{c_{1},c_{2}\} \\
-		&\leq& n \cdot c + n \cdot c	\\
-		&=& 2c \cdot n \in \mathcal{O}(n)
+	0	&\leq& 17n^3 + 5n^2 + 2n + 8 \\
+		&\leq& 17n^3 + 5n^3 + 2n^3 + 8n^3 \\
+		&\leq& 32n^3 \in \mathcal{O}(n^3)
 \end{eqnarray*}
 
 \subsubsection{Übung}
@@ -88,22 +100,53 @@ Berechnen Sie die Laufzeit des folgenden Codes:
 for (k := 1 to n-1)
 	for (l := k+1 to n)
 		if (a[k] == a[l])
-			return true;
-return false;
+			return Duplikat vorhanden;
+return Kein Duplikat vorhanden;
 \end{lstlisting}
-Lösung
+\begin{enumerate}
+	\item Möglichkeit zur Abschätzung der Laufzeit
+		\begin{eqnarray*}
+		LZ 	&\leq& n \cdot n \cdot c + c'	\\
+			&\leq& n^2 \cdot c + n^2 \cdot c'	\\
+			&\leq& (c+c') n^2				\\
+			&\leq& \mathcal{O}(n^{2})
+		\end{eqnarray*}
+	\item Möglichkeit zur genaueren Abschätzung der Laufzeit
+	\begin{eqnarray*}
+		LZ	&\leq& \binom{n}{2} \cdot c + c' \\
+			&\leq& \binom{n}{2} \cdot c + \binom{n}{2} \\
+			&=& \binom{n}{2}(c+1)	\\
+			&=& \frac{n(n-1)}{2}(c+1)	\\
+	\curvearrowright LZ &\leq& n^{2} \cdot \frac{c+1}{2} \in \mathcal{O}(n^{2})
+	\end{eqnarray*}
+\end{enumerate}
+
+\subsubsection{Übung}
+Berechnen Sie die Laufzeit des folgenden Algorithmuses:
+\[\sum_{m=0}^{k} a_m n^m \;\;\textrm{mit } a_k > 0, a_m \geq 0\]
+Lösung:
 \begin{eqnarray*}
-	LZ	&\leq& \binom{n}{2} \cdot c + c' \\
-		&\leq& \binom{n}{2} \cdot c + \binom{n}{2} \\
-		&=& \binom{n}{2}(c+1)	\\
-		&=& \frac{n(n-1)}{2}(c+1)	\\
-\curvearrowright LZ &\leq& n^{2} \cdot \frac{c+1}{2} \in \mathcal{O}(n^{2})
+	LZ	&\leq& \sum_{m=0}^{k} a_m n^m \\
+		&\leq& a_0 n^0 + \cdots + a_k n^k \\
+		&\leq& a_k n^k \in \mathcal{O}(n^k)
 \end{eqnarray*}
-Eine alternative Herleitung der Lösung:
-\begin{eqnarray*}
-	LZ \leq \mathcal{O}(n^{2}) \cdot \mathcal{O}(1) + \mathcal{O}(1) &=& \mathcal{O}(n^{2} \cdot 1) + \mathcal{O}(1)	\\
-		&=& \mathcal{O}(n^{2})
-\end{eqnarray*}
+
+
+
+\subsubsection{Übung}
+Zeigen Sie:
+\begin{itemize}
+	\item \(\log(n!) \in \mathcal{O}(n \log n)\)
+		\begin{eqnarray*}
+			\mathcal{O}(\log(n!)) &\subseteq& \mathcal{O}(n \log n) \\
+			\mathcal{O}(\log(n \cdot n-1 \cdot \ldots \cdot n-(n-1))) &\subseteq&	\\
+			\mathcal{O}(\log(n^n)) &\subseteq&	\\
+		\end{eqnarray*}
+	\item \(\binom{n}{k} \in \mathcal{O}(n^k)\)
+	\item \(2^{n+\mathcal{O}(1)} \in \mathcal{O}(2^n)\)
+		\[2^{n+\mathcal{O}(1)} \subseteq 2^{n+c} = 2^n \cdot 2^c \in \mathcal{O}(2^n)\]
+\end{itemize}
+
 
 
 \section{Omega-Notation}
@@ -200,3 +243,4 @@ Zeigen Sie das \(\frac{n(n+1)}{2} \in \Theta(n^{2})\) liegt.
 \[\mathcal{O}(\frac{n(n+1)}{2}) = \mathcal{O}(n(n+1)) = \mathcal{O}(n) \cdot \mathcal{O}(n+1) = \mathcal{O}(n) \cdot \mathcal{O}(n) = \mathcal{O}(n^{2})\]
 \[\frac{n(n+1)}{2} \geq \frac{n^{2}}{2} \in \Theta(n^{2})\]
 \[\curvearrowright \mathcal{O}(n^{2}) \cap \Theta(n^{2}) = \Omega(n^{2})\]
+
