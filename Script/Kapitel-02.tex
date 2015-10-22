@@ -25,7 +25,8 @@ Ansonsten wird geprüft ob das Element kleiner als das gesuchte Element ist, dan
 Dadurch wird der Suchbereich Schritt für Schritt halbiert bis das gesuchte Element gefunden ist oder nur noch eine Element vorhanden ist.
 
 Für \(n=2^{k}\) lässt sich das Verhalten bei erfolgloser Suche als vollständiger Binärbaum darstellen.
-Jeder Knoten entspricht dabei ein Vergleich mit einem der n Elemente des Arrays.
+Jeder Knoten entspricht ein Vergleich mit einem mittleren Feldelement.
+Jedes Blatt entspricht einem Vergleich in einem Array der Länge 1, daher besitzt der Baum \(n\) Blätter.
 \begin{figure}[htbp]
 	\begin{center}
 	\tikzstyle{end} = [circle, minimum width=4pt,fill, inner sep=0pt]
@@ -60,7 +61,8 @@ Jeder Knoten entspricht dabei ein Vergleich mit einem der n Elemente des Arrays.
 	\caption{Einfacher Binärbaum}
 \end{figure}
 In einem vollständigen Binärbaum mit genau \(n=2^{k}\) Blättern besitzt jeder Pfad von der Wurzel zu einem Blatt die Länge \(k=\log_{2}n\).
-Daraus folgt: Die Laufzeit der binären Suche liegt bei \(\mathcal{O}(\log_{2}n)\).
+Falls die Suche erfolgreich ist, ist die Laufzeit entsprechend kürzer.
+Die Laufzeit der binären Suche liegt daher in \(\mathcal{O}(\log_{2}n)\).
 
 \subsubsection{Induktionsbeweis}
 \label{Beweis:BinaerBaum}
@@ -74,7 +76,7 @@ Behauptung: Ein vollständiger Binärbaum der Tiefe \(d\) besitzt genau \(2^{d}\
 
 \subsubsection{Rekursionsgleichung}
 Eine alternative Möglichkeit die Laufzeit des Algorithmuses zu bestimmen ist es die Rekursionsgleichung zu lösen.
-Seien \(n=2^{k}\) und \(V(n)\) die Anzahl der Vergleiche mit \(\leq\).
+Seien \(n=2^{k}\) und \(V(n)\) die Anzahl, die die binäre Suche mit dem gesuchten Wert ausführt.
 So gilt bei erfolgloser Suche:
 
 \begin{eqnarray*}
@@ -82,7 +84,8 @@ So gilt bei erfolgloser Suche:
 	V(n) &=& 1+ V(\frac{n}{2}) \\
 	&=& 1+1+V(\frac{n}{4}) \\
 	&=& 1+1+1+V(\frac{n}{8}) = 3 +V(\frac{n}{2^{3}}) \\
-	&=& k+V(\frac{n}{2^{k}}) = k+V(1) = k+1 \in \mathcal{O}(\log n)
+	&=& k+V(\frac{n}{2^{k}}) = \log(n) + V(\frac{n}{n})\\
+	&=& \log(n) + V(1) \in \mathcal{O}(\log n)
 \end{eqnarray*}
 
 \subsubsection{Alternative Herrleitung}
@@ -185,8 +188,30 @@ Folgende Funktionen sind nötig:
 	\caption{Beispiel für das entfenen eines Wertes aus einem Suchbaum}
 \end{figure}
 
+Mit einer Grammatik lässt sich ein Binärbaum darstellen:
+\[\textrm{BTree} \rightarrow \textrm{empty} \:|\: \textrm{node Btree Btree}\]
+Zum Beispiel entspricht die Grammatik ``node(node empty empty) empty'' dem Baum
+\begin{figure}[htbp]
+	\begin{center}
+	\tikzstyle{end} = [circle, minimum width=4pt,fill, inner sep=0pt]
+		\begin{tikzpicture}[sibling distance=5mm]
+			\Tree [. \node[end]{};
+				[. \node[end]{};
+					[. \node[end]{};
+					]
+					[. \node[end]{};
+					]
+				]
+				[. \node[end]{};
+				]
+				];
+		\end{tikzpicture}
+	\end{center}
+\end{figure}
+
+
 \section{Hashing}
-Gegeben sei eine Menge \(U\) von Schlüsseln und eine Menge \(S \subseteq U\) von zu verwaltenden Schlüssel.
+Gegeben sei eine Menge \(U\) von potentiellen Schlüsseln und eine Menge \(S \subseteq U\) von zu verwaltenden Schlüsseln.
 Hashing ist geeignet, wenn \(|S|\) deutlich kleiner \(|U|\) ist und sich \(|S|\) nicht stark ändert.
 Beispiel:
 \begin{itemize}
@@ -195,7 +220,8 @@ Beispiel:
 \end{itemize}
 
 Wir verwenden eine Hashfunktion \(h: U \rightarrow T\), die eine Hashtabelle \(T\) abbildet.
-Die Hastabelle \(T\) ist ein Array von Zeigern welches auf die eigentlichen Datensätze zeigt.
+Ein Beispiel für eine Hashfunktion könnte \(h(s) = s \mod m\) sein, wenn \(m \leq |T|\) ist.
+\(m\) sollte dabei eine Primzahl sein.
 \begin{figure}[htbp]
 	\begin{center}
 		\begin{tikzpicture}[every node/.style={circle,inner sep=0pt}]
@@ -219,25 +245,10 @@ Die Hastabelle \(T\) ist ein Array von Zeigern welches auf die eigentlichen Date
 	\caption{Hashfunktion die auf ein Array abbildet}
 \end{figure}
 
-Wenn wir annehmen, dass \(h\) injektiv ist, lässt sich die Hashfunktionen sehr einfach implentieren:
-\begin{description}
-	\item[Suche] if \(T(h(s)) \neq NIL \dots\)
-	\item[Einfügen] \(T(h(s)) = \dots\)
-	\item[Löschen] \(T(h(s)) = NIL\)
-\end{description}
-
-\begin{shaded}
-	\noindent
-	\textbf{Wdh. injektiv:} Jedes Element der Zielmenge zeigt höchstens einmal oder gar nicht (zurück nach links) auf ein (Funktions-)Element der Ausgangs- oder Definitionsmenge.
-		Es werden also keine zwei verschiedenen Elemente der Definitionsmenge (nach rechts) auf ein und dasselbe Element der Zielmenge, durch Anwendung der mathematischen Funktion, abgebildet.
-		Die Zielmenge darf also nicht kleiner als die Definitionsmenge sein, d.h. nicht weniger Elemente beinhalten als die Definitionsmenge.
-		
-		Es gilt also \(|S| \leq m\) und zwei Schlüssel \(s, s' \in S\) haben  verschiedenene Hashwerte \(h(s) \neq h(s')\).
-\end{shaded}
-
-Da \(h\) jedoch nicht injektiv ist, tretten Kollisionen auf.
+Dabei können allerdings Kollisionen (mehre Schlüssel besitzen den gleichen Hashwert) auftretten.
 Dies soll durch das folgende Beispiel verdeutlicht werden:
 In einer Hashtabelle mit \(m=100\) Einträgen werden \(k\) zufällige Schlüssel eingetragen.
+Wir nehmen an, dass die Hashfunktion gut streut und die Werte der Hashfunktion gleichmäßig verteilt sind.
 Ab wann ist die Wahrscheinlickeit für eine Kollision \(\geq 0,5\)?
 \begin{eqnarray*}
 	P(Kollesion) &=& 1-(\textrm{kleine Kollesion}) \\
@@ -245,9 +256,8 @@ Ab wann ist die Wahrscheinlickeit für eine Kollision \(\geq 0,5\)?
 				&\Leftrightarrow& k \geq 13
 \end{eqnarray*}
 Allgemein ist bei etwa \(\sqrt{2m}\) vielen Einträgen mit einer Kollesion zu rechnen.
-Die Hashfunktion sollte daher gut streuen.
-Eine gute Funktion ist \(h(s)=s \mod m\) wobei \(m\) eine Primzahl sein sollte.
-Die einfache Art der Kollisionsbehandlung ist Hashing mit Verkettung.
+
+Die einfachste Art der Kollisionsbehandlung ist das Hashing mit Verkettung.
 Dabei ist jedes Element der Hashtabelle eine Liste.
 \begin{figure}[htbp]
 	\begin{center}
@@ -281,11 +291,13 @@ Dabei ist jedes Element der Hashtabelle eine Liste.
 Der Belegungsfaktor einer Hastabelle mit  \(n\) Elementen ist \(\beta = \frac{n}{m}\).
 Man kann zeigen, dass die mittlere Länge der Überlaufliste \(\beta\) ist.
 Daraus ergibt sich die mittlere Anzahl Suchschritte \(1+\beta\).
-Wenn \(\beta\) beschränkt ist, bleibt die Suchzeit dabei in \(\mathcal{O}(1)\).
 
-Beim Überschreiten einen Schwellwertes für \(\beta\) (typisch \(\beta = \frac{3}{4}\)) werden alle Einträge in eine größere Hashtabelle kopiert.
+\subsubsection{Dynamische Größenänderung}
+Um die Suchzeit und den Platzbedarf gering zu halten, muss der Belegungsquotient begrenzt sein.
+Eine einfache Möglichkeit ist es das beim Überschreiten eines Schwellwertes für \(\beta\) (typisch \(\beta = \frac{3}{4}\)) alle Einträge in eine größere Hashtabelle kopiert werden.
 Entsprechend beim Unterschreiten eine Schwellwertes in eine kleinere Hashtabelle.
-Die amortisierte Laufzeit (d.h. wir verteilen den Aufwand zum Kopieren auf alle vorherigen Hashoperationen) beträgt ebenfalls \(\mathcal{O}(1)\).
+Mit einer amortisierten Analyse lässt sich zeigen, dass sich der amortisierte Aufwand (d.h. wir verteilen den Aufwand zum Kopieren auf alle vorherigen Hashoperationen) für die Hashtabelle dann in \(\mathcal{O}(1)\) liegt.
+
 
 \section{Sortieren}
 

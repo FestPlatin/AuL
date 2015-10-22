@@ -97,11 +97,11 @@ Es gelten folgende Rechenregeln:
 \subsubsection{Übung}
 Berechnen Sie die Laufzeit des folgenden Codes:
 \begin{lstlisting}[language=java, caption={Pseudocode zur Berechnung der Laufzeit}]
-for (k := 1 to n-1)
-	for (l := k+1 to n)
-		if (a[k] == a[l])
-			return Duplikat vorhanden;
-return Kein Duplikat vorhanden;
+	for (k := 1 to n-1)
+		for (l := k+1 to n)
+			if (a[k] == a[l])
+				return Duplikat vorhanden;
+	return Kein Duplikat vorhanden;
 \end{lstlisting}
 \begin{enumerate}
 	\item Möglichkeit zur Abschätzung der Laufzeit
@@ -131,8 +131,6 @@ Lösung:
 		&\leq& a_k n^k \in \mathcal{O}(n^k)
 \end{eqnarray*}
 
-
-
 \subsubsection{Übung}
 Zeigen Sie:
 \begin{itemize}
@@ -154,7 +152,7 @@ Zeigen Sie:
 Die Omega-Notation beschreibt die untere Schranke, d.h. wie lange ein Algorithmus bzw. ein Programm mindestens läuft (Best Case Laufzeit).
 \begin{shaded}
 	\noindent
-	\textbf{Def.:} \(\Omega(f) = \{ g \:|\) Es gibt ein \(c > 0\), sodass \(g(n) \geq c \cdot f(n)\) für alle großen \(n\) gilt.\(\}\)
+	\textbf{Def.:} \(\Omega(f) = \{ g \:|\) Es gibt ein \(c > 0\), sodass \(0 \leq c \cdot f(n) \leq g(n)\) für alle großen \(n\) gilt.\(\}\)
 \end{shaded}
 
 \begin{figure}[htbp]
@@ -198,7 +196,7 @@ Die Omega-Notation beschreibt die untere Schranke, d.h. wie lange ein Algorithmu
 Die Theta-Notation dient dazu, gleichzeitg eine obere und eine untere Schranke zu definieren.
 \begin{shaded}
 	\noindent
-	\textbf{Def.:} \( \Theta(f) = \{ \mathcal{O} \cap \Omega(f)\}\)
+	\textbf{Def.:} \( \Theta(f) = \mathcal{O} \cap \Omega(f)\)
 \end{shaded}
 \begin{figure}[htbp]
 	\begin{center}
@@ -240,7 +238,16 @@ Die Theta-Notation dient dazu, gleichzeitg eine obere und eine untere Schranke z
 
 \subsubsection{Übung}
 Zeigen Sie das \(\frac{n(n+1)}{2} \in \Theta(n^{2})\) liegt.
-\[\mathcal{O}(\frac{n(n+1)}{2}) = \mathcal{O}(n(n+1)) = \mathcal{O}(n) \cdot \mathcal{O}(n+1) = \mathcal{O}(n) \cdot \mathcal{O}(n) = \mathcal{O}(n^{2})\]
-\[\frac{n(n+1)}{2} \geq \frac{n^{2}}{2} \in \Theta(n^{2})\]
-\[\curvearrowright \mathcal{O}(n^{2}) \cap \Theta(n^{2}) = \Omega(n^{2})\]
+\begin{eqnarray*}
+	\mathcal{O}(\frac{n(n+1)}{2}) = \mathcal{O}(n(n+1)) = \mathcal{O}(n) \cdot \mathcal{O}(n+1) = \mathcal{O}(n) \cdot \mathcal{O}(n) = \mathcal{O}(n^{2}) \\
+	\frac{n(n+1)}{2} \geq \frac{n^{2}}{2} \in \Theta(n^{2}) \\
+	\curvearrowright \mathcal{O}(n^{2}) \cap \Omega(n^{2}) = \Theta(n^{2})
+\end{eqnarray*}
+
+\subsubsection{Übung}
+Zeigen Sie ob \(n \in \Theta(2^n)\) gilt.
+\[n \in \Theta(2^n) = \mathcal{O}(2^n) \cap \underbrace{\Omega(2^n)}_{\textrm{Verletzt}}\]
+\(2^n	\) wächst schneller als \(n\), somit kann die untere Schranke nicht eingehalten werden.
+
+
 
