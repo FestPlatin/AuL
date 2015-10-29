@@ -5,8 +5,7 @@ Die Lineare Suche ist der einfachste Suchalgorithmus überhaupt.
 Bei ihr wird solange ein Element nach dem anderen durchlaufen, bis ein Element mit dem gesuchten Schlüssel angetroffen wird.
 Die lineare Suche hat eine Laufzeit von $\mathcal{O}(n)$ (n ist die Anzahl der Elemente der Liste) und kann sowohl auf sortierte als auch unsortierte Listen angewendet werden. 
 \begin{lstlisting}[language=java, caption={Beispielimplementierung in Java}]
-public static int lineareSuche(int gesucht, int[] daten)
-{
+public static int lineareSuche(int gesucht, int[] daten) {
     for (int i = 0; i < daten.length; i++)
         if (daten[i] == gesucht)
             return i;
@@ -345,6 +344,11 @@ Ein Sortierverfahren, dass paarweise Vergleiche ausführt besitzt daher eine Wor
 	\caption{Entscheidungsbaum für 3 Elemente (\(\{1,2,3\}\))}
 \end{figure}
 
+Naive Verfahren wie Bubbelsort haben ein Laufzeit von \(\mathcal{O}(n^2)\).
+Ein besseres Verfahren ist Quicksort.
+Die Laufzeit ist schwierig zu berechnen da die Teillisten unterschiedliche Längen besitzen.
+Ein ähnliches Verfahrenist Mergesort, welches nachfolgend behandelt wird.
+
 
 \subsection{Mergesort}
 Mergesort betrachtet die zu sortierenden Daten als Liste und zerlegt sie in kleinere Listen, die jede für sich sortiert werden.
@@ -391,7 +395,10 @@ Das Verfahren arbeitet bei Arrays in der Regel nicht in-place.
 Das Verhalten lässt sich wie in Abbildung \ref{fig:Mergesort} als Baum darstellen.
 Vereinfacht nehmen wir \(n=2^{k}\) an.
 
-Beim Zusammenfügen fällt auf jeder Ebene der Aufwand \(\mathcal{O}(n)\) an.
+Beim Zusammenfügen fällt der Aufwand \(\mathcal{O}((\textrm{linke Liste}) + (\textrm{rechte Liste}))\) an.
+Auf jeder Ebene ist das \(\mathcal{O}(n)\).
+Zum halbieren der Liste fällt jeweils der Aufwand \(\mathcal{O}(n)\) an.
+Pro Ebene insgesammt also \(\mathcal{O}(n)\).
 Der Baum besitzt \(n\) Blätter, die Liste der der Länge 1 entsprechen (Mehr als n Listen der Länge 1 können nicht erzeugt werden \(\curvearrowright\) n Blätter).
 Der Baum hat daher die Tiefe \(\log_{2}n\) (d.h. k).
 Die Laufzeit liegt daher in in \(\mathcal{O}(n \cdot  \log n)\).
@@ -403,9 +410,9 @@ Bestimmen Sie die Laufzeit durch eine Rekursionsgleichung.
 \begin{eqnarray*}
 	V(1) &=& 0 \\
 	V(n) &=& \underbrace{n}_{\textrm{Zusammenfügen}} + \underbrace{V(\frac{n}{2}) + V(\frac{n}{2})}_{\textrm{Sortieren}} = n + 2V(\frac{n}{2}) \\
-	V(n+1) &=& 2n + 4V(\frac{2}{4}) \\
+	V(n+1) &=& 2n + 4V(\frac{n}{4}) \\
 		&\vdots&	\\
-		&=& k \cdot n + 2^{k} \cdot V(\frac{2}{2^{k}})	\\
+		&=& k \cdot n + 2^{k} \cdot V(\frac{n}{2^{k}})	\\
 		&=&n \cdot \log n
 \end{eqnarray*}
 
@@ -413,7 +420,7 @@ Bestimmen Sie die Laufzeit durch eine Rekursionsgleichung.
 Im Worst Case wird das Pivotelement stehts so gewählt, dass es das größte oder das kleinste Element der Liste ist.
 Dies ist etwa der Fall, wenn als Pivotelement stets das Element am Ende der Liste gewählt wird und die zu sortierende Liste bereits sortiert vorliegt.
 \begin{eqnarray*}
-	V(1) &=& n-1 + V(n-1)	\\
+	V(n) &=& n-1 + V(n-1)	\\
 		 &=& n-1 + n-2 + V(n-2)	\\
 		 &=& \sum \limits_{k=1}^{n-1} k + V(0) = \frac{n(n-1)}{2} \in \mathcal{O}(n^{2})
 \end{eqnarray*}
