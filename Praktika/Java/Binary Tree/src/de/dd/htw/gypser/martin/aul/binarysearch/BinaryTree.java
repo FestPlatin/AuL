@@ -3,10 +3,12 @@ package de.dd.htw.gypser.martin.aul.binarysearch;
 public class BinaryTree {
 	private BinaryTree leftSide = null;
 	private BinaryTree rightSide = null;
+	private BinaryTree parent = null;
 	private int currentValue;
 	
-	public BinaryTree(int value) {
+	public BinaryTree(BinaryTree parent, int value) {
 		this.currentValue = value;
+		this.parent = parent;
 	}
 	
 	public boolean addValue(int value) {
@@ -16,7 +18,7 @@ public class BinaryTree {
 			if(rightSide != null) {
 				added = rightSide.addValue(value);
 			} else {
-				rightSide = new BinaryTree(value);
+				rightSide = new BinaryTree(this, value);
 				added = true;
 			}
 		} 
@@ -25,7 +27,7 @@ public class BinaryTree {
 			if(leftSide != null) {
 				added = leftSide.addValue(value);
 			} else {
-				leftSide = new BinaryTree(value);
+				leftSide = new BinaryTree(this, value);
 				added = true;
 			}
 		}
@@ -56,7 +58,32 @@ public class BinaryTree {
 		
 		BinaryTree bTree = searchValue(value);
 		
+		// TODO stellenweise muss ein parent value aktualisiert werden
+		if(bTree != null) {
+			if(bTree.getLeftSide() == null && bTree.getRightSide() == null) {
+				setParentSide(bTree.parent, null, value);
+				removed = true;
+			} else {
+				if(bTree.getRightSide() == null) {
+					setParentSide(bTree.parent, bTree.getLeftSide(), value);
+				} else if(bTree.getLeftSide() == null) {
+					setParentSide(bTree.parent, bTree.getRightSide(), value);
+				} else {
+					// TODO
+				}
+				removed = true;
+			}
+		}
+		
 		return removed;
+	}
+	
+	private void setParentSide(BinaryTree parent, BinaryTree bTree, int value) {
+		if(parent.getLeftSide().getCurrentValue() == value) {
+			parent.setLeftSide(bTree);
+		} else {
+			parent.setRightSide(bTree);
+		}
 	}
 
 	public BinaryTree getLeftSide() {

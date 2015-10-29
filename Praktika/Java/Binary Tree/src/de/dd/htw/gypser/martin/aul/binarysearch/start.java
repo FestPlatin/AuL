@@ -9,7 +9,7 @@ public class start {
 		// TODO Auto-generated method stub
 		System.out.println("Building Tree");
 		
-		BinaryTree bTree = new BinaryTree(5);
+		BinaryTree bTree = new BinaryTree(null, 5);
 		bTree.addValue(3);
 		bTree.addValue(7);
 		bTree.addValue(6);
@@ -20,7 +20,7 @@ public class start {
 
 		System.out.println("Done");
 		
-		int value = 8;
+		int value = 1;
 		System.out.println("Searching for Value: " + value);
 		BinaryTree result = bTree.searchValue(value);
 		if(result != null) {
@@ -28,6 +28,15 @@ public class start {
 		} else {
 			System.out.println("Value not found!");
 		}
+		
+		System.out.println("Removing Value " + value);
+		if(bTree.removeValue(value)) {
+			System.out.println("Value removed");
+		} else {
+			System.out.println("Value has not been removed (is it in the tree?)");
+		}
+		
+		System.out.println("Application done");
 	}
 
 }
