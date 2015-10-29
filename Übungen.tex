@@ -1,0 +1,94 @@
+\documentclass[a4paper,11pt]{exam}
+%\printanswers % If you want to print answers
+\noprintanswers % If you don't want to print answers
+\addpoints % if you want to count the points
+%\noaddpoints % if you don't want to count the points
+
+\usepackage{color}					% defines a new color
+\usepackage[utf8]{inputenc}			%UTF-8 Unterstützung (Kodierung)
+\usepackage[ngerman]{babel}			%Deutsche Sprachdatei für Umlaute
+\usepackage{amssymb}   				% Mathematische Symbole und Zeichen
+\usepackage{amsmath}   				% Mathematische Symbole und Zeichen
+\usepackage{listings}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{array,paralist,ragged2e}		% Itemsize in Tabelle
+\newcolumntype{i}[1]{%
+  >{\vspace*{-.5\baselineskip}%
+    \RaggedRight%
+    \setdefaultleftmargin{1em}{}{}{}{}{}%
+    \begin{compactitem}}
+    p{#1}%
+  <{\end{compactitem}%
+    \vspace*{-\baselineskip}}
+}
+
+%\qformat{\textbf{Aufgabe \thequestion}\hfill\quad(\thepoints)}
+\renewcommand{\solutiontitle}{\noindent\textbf{Lösung:}\enspace}
+\pointsinrightmargin
+\pointpoints{Punkt}{Punkte}
+\cfoot[]{Seite \thepage}
+
+\shadedsolutions % defines the style of the solution environment
+\title{Algorithmen und Lernverfahren}
+
+\author{Kay Förster}
+\date{\today}
+
+\printanswers
+
+\begin{document}
+\maketitle
+
+\begin{questions}
+	\question Berechnen Sie die Laufzeit des folgenden Algorithmuses:
+		\[\sum_{m=0}^{k} a_m n^m \;\;\textrm{mit } a_k > 0, a_m \geq 0\]
+	\begin{solution}
+		\begin{eqnarray*}
+			LZ	&\leq& \sum_{m=0}^{k} a_m n^m \\
+				&\leq& a_0 n^0 + \dots + a_k n^k \\
+				&\leq& a_k n^k \in \mathcal{O}(n^k)
+		\end{eqnarray*}
+	\end{solution}
+
+
+	\question Zeigen Sie:
+		\begin{parts}
+			\part \(\log(n!) \in \mathcal{O}(n \log n)\)
+			\part \(\binom{n}{k} \in \mathcal{O}(n^k)\)
+			\part \(2^{n+\mathcal{O}(1)} \in \mathcal{O}(2^n)\)
+		\end{parts}
+	\begin{solution}
+		\begin{parts}
+			\part
+				\begin{eqnarray*}
+					\mathcal{O}(\log(n!)) &\subseteq& \mathcal{O}(n \log n) \\
+					\mathcal{O}(\log(n \cdot n-1 \cdot \ldots \cdot n-(n-1))) &\subseteq&	\\
+					\mathcal{O}(\log(n^n)) &\subseteq&	\\
+				\end{eqnarray*}
+			\part
+			\part \[2^{n+\mathcal{O}(1)} \subseteq 2^{n+c} = 2^n \cdot 2^c \in \mathcal{O}(2^n)\]
+		\end{parts}
+	\end{solution}
+
+
+	\question Zeigen Sie das \(\frac{n(n+1)}{2} \in \Theta(n^{2})\) gilt.
+	\begin{solution}
+		\begin{eqnarray*}
+			\mathcal{O}(\frac{n(n+1)}{2}) = \mathcal{O}(n(n+1)) = \mathcal{O}(n) \cdot \mathcal{O}(n+1) = \mathcal{O}(n) \cdot \mathcal{O}(n) = \mathcal{O}(n^{2}) \\
+			\frac{n(n+1)}{2} \geq \frac{n^{2}}{2} \in \Theta(n^{2}) \\
+			\curvearrowright \mathcal{O}(n^{2}) \cap \Omega(n^{2}) = \Theta(n^{2})
+		\end{eqnarray*}
+	\end{solution}
+
+	\question Zeigen Sie ob \(n \in \Theta(2^n)\) gilt.
+	\begin{solution}
+		\[n \in \Theta(2^n) = \mathcal{O}(2^n) \cap \underbrace{\Omega(2^n)}_{\textrm{Verletzt}}\]
+		\(2^n\) wächst schneller als \(n\), somit kann die untere Schranke nicht eingehalten werden.
+	\end{solution}
+
+
+
+\end{questions}
+\end{document}

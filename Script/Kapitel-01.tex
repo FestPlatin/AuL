@@ -121,32 +121,7 @@ Berechnen Sie die Laufzeit des folgenden Codes:
 	\end{eqnarray*}
 \end{enumerate}
 
-\subsubsection{Übung}
-Berechnen Sie die Laufzeit des folgenden Algorithmuses:
-\[\sum_{m=0}^{k} a_m n^m \;\;\textrm{mit } a_k > 0, a_m \geq 0\]
-Lösung:
-\begin{eqnarray*}
-	LZ	&\leq& \sum_{m=0}^{k} a_m n^m \\
-		&\leq& a_0 n^0 + \cdots + a_k n^k \\
-		&\leq& a_k n^k \in \mathcal{O}(n^k)
-\end{eqnarray*}
-
-\subsubsection{Übung}
-Zeigen Sie:
-\begin{itemize}
-	\item \(\log(n!) \in \mathcal{O}(n \log n)\)
-		\begin{eqnarray*}
-			\mathcal{O}(\log(n!)) &\subseteq& \mathcal{O}(n \log n) \\
-			\mathcal{O}(\log(n \cdot n-1 \cdot \ldots \cdot n-(n-1))) &\subseteq&	\\
-			\mathcal{O}(\log(n^n)) &\subseteq&	\\
-		\end{eqnarray*}
-	\item \(\binom{n}{k} \in \mathcal{O}(n^k)\)
-	\item \(2^{n+\mathcal{O}(1)} \in \mathcal{O}(2^n)\)
-		\[2^{n+\mathcal{O}(1)} \subseteq 2^{n+c} = 2^n \cdot 2^c \in \mathcal{O}(2^n)\]
-\end{itemize}
-
-
-
+\newpage
 \section{Omega-Notation}
 \label{sec:OmegaNotation}
 Die Omega-Notation beschreibt die untere Schranke, d.h. wie lange ein Algorithmus bzw. ein Programm mindestens läuft (Best Case Laufzeit).
@@ -190,7 +165,6 @@ Die Omega-Notation beschreibt die untere Schranke, d.h. wie lange ein Algorithmu
 	\caption{Grafische Darstellung der Omega-Funktion}
 \end{figure}
 
-\newpage
 \section{Theta-Notation}
 \label{sec:ThetaNotation}
 Die Theta-Notation dient dazu, gleichzeitg eine obere und eine untere Schranke zu definieren.
@@ -235,19 +209,3 @@ Die Theta-Notation dient dazu, gleichzeitg eine obere und eine untere Schranke z
 	\label{img:Theta}
 	\caption{Grafische Darstellung der Theta-Funktion}
 \end{figure}
-
-\subsubsection{Übung}
-Zeigen Sie das \(\frac{n(n+1)}{2} \in \Theta(n^{2})\) liegt.
-\begin{eqnarray*}
-	\mathcal{O}(\frac{n(n+1)}{2}) = \mathcal{O}(n(n+1)) = \mathcal{O}(n) \cdot \mathcal{O}(n+1) = \mathcal{O}(n) \cdot \mathcal{O}(n) = \mathcal{O}(n^{2}) \\
-	\frac{n(n+1)}{2} \geq \frac{n^{2}}{2} \in \Theta(n^{2}) \\
-	\curvearrowright \mathcal{O}(n^{2}) \cap \Omega(n^{2}) = \Theta(n^{2})
-\end{eqnarray*}
-
-\subsubsection{Übung}
-Zeigen Sie ob \(n \in \Theta(2^n)\) gilt.
-\[n \in \Theta(2^n) = \mathcal{O}(2^n) \cap \underbrace{\Omega(2^n)}_{\textrm{Verletzt}}\]
-\(2^n	\) wächst schneller als \(n\), somit kann die untere Schranke nicht eingehalten werden.
-
-
-
