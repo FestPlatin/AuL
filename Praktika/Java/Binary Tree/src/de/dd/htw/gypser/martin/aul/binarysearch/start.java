@@ -20,7 +20,7 @@ public class start {
 
 		System.out.println("Done");
 		
-		int value = 1;
+		int value = 5;
 		System.out.println("Searching for Value: " + value);
 		BinaryTree result = bTree.searchValue(value);
 		if(result != null) {
@@ -28,7 +28,10 @@ public class start {
 		} else {
 			System.out.println("Value not found!");
 		}
-		
+
+		// If you remove the binary tree root then bTree will still point at the old root
+		// a bTree.getLeftSide().getParent() will get you the new root
+		// Could be fixed in the future
 		System.out.println("Removing Value " + value);
 		if(bTree.removeValue(value)) {
 			System.out.println("Value removed");

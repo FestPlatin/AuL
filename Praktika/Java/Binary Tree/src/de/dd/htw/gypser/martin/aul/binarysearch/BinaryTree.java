@@ -10,6 +10,16 @@ public class BinaryTree {
 		this.currentValue = value;
 		this.parent = parent;
 	}
+
+	public void setParent(BinaryTree parent)
+	{
+		this.parent = parent;
+	}
+
+	public BinaryTree getParent()
+	{
+		return parent;
+	}
 	
 	public boolean addValue(int value) {
 		boolean added = false;
@@ -58,7 +68,6 @@ public class BinaryTree {
 		
 		BinaryTree bTree = searchValue(value);
 		
-		// TODO stellenweise muss ein parent value aktualisiert werden
 		if(bTree != null) {
 			if(bTree.getLeftSide() == null && bTree.getRightSide() == null) {
 				setParentSide(bTree.parent, null, value);
@@ -69,7 +78,19 @@ public class BinaryTree {
 				} else if(bTree.getLeftSide() == null) {
 					setParentSide(bTree.parent, bTree.getRightSide(), value);
 				} else {
-					// TODO
+					BinaryTree temp = bTree.getRightSide();
+					while(temp.getLeftSide() != null) {
+						temp = temp.getLeftSide();
+					}
+					temp.removeValue(temp.getCurrentValue());
+					setParentSide(bTree.parent, temp, value);
+					BinaryTree rightSide = bTree.getRightSide();
+					BinaryTree leftSide = bTree.getLeftSide();
+					temp.setLeftSide(leftSide);
+					temp.setRightSide(rightSide);
+					if(rightSide != null) rightSide.setParent(temp);
+					if(leftSide != null) leftSide.setParent(temp);
+					
 				}
 				removed = true;
 			}
@@ -79,12 +100,26 @@ public class BinaryTree {
 	}
 	
 	private void setParentSide(BinaryTree parent, BinaryTree bTree, int value) {
-		if(parent.getLeftSide().getCurrentValue() == value) {
-			parent.setLeftSide(bTree);
-		} else {
-			parent.setRightSide(bTree);
+		if(bTree != null) {
+			bTree.setParent(parent);
+		}
+		if(parent != null) {
+			BinaryTree rightSide = parent.getRightSide();
+			BinaryTree leftSide = parent.getLeftSide();
+			if (leftSide != null && leftSide.getCurrentValue() == value)
+ 			{
+				parent.getLeftSide().setParent(bTree);
+				parent.setLeftSide(bTree);
+			} 
+			if (rightSide != null && rightSide.getCurrentValue() == value)
+ 			{
+				parent.getRightSide().setParent(bTree);
+				parent.setRightSide(bTree);
+			}
 		}
 	}
+	
+	
 
 	public BinaryTree getLeftSide() {
 		return leftSide;
