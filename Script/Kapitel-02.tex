@@ -427,6 +427,7 @@ Dies ist etwa der Fall, wenn als Pivotelement stets das Element am Ende der List
 
 \subsection{Heap Sort}
 Ein Heap ist ein Binärbaum, in dem jeder Knoten einen kleineren (Min-Heap) bzw. einen größeren (Max-Heap) Wert besitzt als seine Nachfolger (Abbildung \ref{fig:MinHeap}).
+Ein Linksbaum ist ein Heap, der effiziente Heapoperationen ermöglicht.
 \begin{figure}[htbp]
 	\begin{center}
 		\begin{tikzpicture}
@@ -446,8 +447,11 @@ Ein Heap ist ein Binärbaum, in dem jeder Knoten einen kleineren (Min-Heap) bzw.
 	\caption{Beispiel für einen Min-Heap}
 	\label{fig:MinHeap}
 \end{figure}
-Ein Linksbaum ist ein Heap, der effiziente Heapoperationen ermöglicht.
+
 Wir stellen Binär\-bäume als erweiterte Binär\-bäume dar, so dass jeder innere Knoten genau 2 Nachfolger hat  (Abbildung \ref{fig:BinaerBaumExtendet}).
+Für einen Knoten \(x\) ist \(s(x)\) die Länge des kürzesten Pfades von x zu einem Blatt.
+Ein Binärbaum ist ein Linksbaum wenn für jeden inneren Knoten \(x\) gilt:
+\[s(\textrm{linker Nachfolger}(x)) \geq s(\textrm{rechter Nachfolger}(x)) \]
 \begin{figure}[htbp]
 	\begin{center}
  		\subfloat[Binärbaum]{
@@ -484,10 +488,8 @@ Wir stellen Binär\-bäume als erweiterte Binär\-bäume dar, so dass jeder inne
 	\caption{Erweiterung eines Binärbäumes}
 	\label{fig:BinaerBaumExtendet}
 \end{figure}
-Für einen Knoten \(x\) ist \(s(x)\) die Länge des Pfades zu einem Blatt.
-Ein Binärbaum ist ein Linksbaum wenn für jeden inneren Knoten \(x\) gilt:
-\[s(\textrm{linker Nachfolger}(x)) \geq s(\textrm{rechter Nachfolger}(x)) \]
 
+\newpage
 \subsubsection{Eigenschaften}
 \begin{enumerate}
 	\item \label{itm:first} \(s(root)\) ist die Länge des Pfades ganz rechts.
@@ -564,7 +566,6 @@ Merge wird wird rekursiv aufgerufen für diesen rechten Teilbaum und den anderen
 		\Tree [.\node[state]{6}; ]
 	\end{tikzpicture}
 \end{tabular}
-
 
 Hier endet die Rekursion, da der rechte Teilbaum des Baumes mit der kleineren Wurzel leer ist.
 Unter dem Baum mit der kleinen Wurzel wird rechts der andere Baum gehängt.

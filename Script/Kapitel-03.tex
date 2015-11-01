@@ -7,6 +7,7 @@ Dieses Verfahren setzt man fort, bis das ursprüngliche Problem gelöst wurde.
 Einmal berechnete Teilergebnisse werden in einer Tabelle gespeichert.
 Bei nachfolgenden Berechnungen gleichartiger Teilprobleme wird auf diese Zwischenlösungen zurückgegriffen, anstatt sie jedes Mal neu zu berechnen.
 Wird die dynamische Programmierung konsequent eingesetzt, vermeidet sie kostspielige Rekursionen, weil bekannte Teilergebnisse wiederverwendet werden.
+Die Laufzeit eines dynamischen Programmieralgorithmuses ist Tabellengröße \(\cdot\) Aufwand pro Eintrag.
 
 \subsubsection{Beispiel}
 Ein Läufer nimmt in jeden Schritt 1 oder 2 Stufen auf einmal.
@@ -42,8 +43,7 @@ Die Laufzeit beträgt somit: \(\mathcal{O}(n)\cdot\mathcal{O}(1) = \mathcal{O}(n
 \end{figure}
 \begin{figure}[htbp]
 \begin{lstlisting}[language=java, caption={Beispielimplementierung in Java}]
-for(i=1; i<=n; i++)
-{
+for(i=1; i<=n; i++) {
 	if(n==1)
 		t[n] = 1;
 	else if(n==2)
@@ -158,8 +158,9 @@ Der Aufwand für die Berechnung in einem 2-dimensionalten Feld beträgt:
 \begin{equation*}
 	\underbrace{\mathcal{O}(n \cdot m)}_{\textrm{Größe der Tabelle}} \cdot \underbrace{\mathcal{O}(1)}_{\textrm{Vergleichsoperation}}
 \end{equation*}
+mit \(n = |a|, m= |b|\)
 
-\subsubsection{Beispiel}
+\subsubsection{Beispiel\protect\footnote{\url{https://youtu.be/qp8YwtvS3Uo}}}
 Berechen Sie die Edierdistanz der Wörter: APFEL, PFERD.
 \begin{center}
 	\begin{tabular}{c|cccccc}
