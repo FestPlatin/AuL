@@ -14,6 +14,9 @@ public class Start
 		HeapNode node7 = new HeapNode(7);
 		HeapNode node3 = new HeapNode(3);
 		HeapNode node2 = new HeapNode(2);
+		HeapNode node9 = new HeapNode(9);
+		HeapNode node13 = new HeapNode(13);
+		HeapNode node14 = new HeapNode(14);
 
 		System.out.println("Merging Heaps");		
 		HeapNode result = HeapManager.merge(node4, node5);
@@ -21,7 +24,12 @@ public class Start
 		result = HeapManager.merge(result, node6);
 		result = HeapManager.merge(result, node2);
 		result = HeapManager.merge(result, node7);
-
+		result = HeapManager.merge(result, node3);
+		result = HeapManager.merge(result, node9);
+		
+		HeapNode result2 = HeapManager.merge(node14, node13);
+		result = HeapManager.merge(result, result2);
+		
 		System.out.println("Done");
 	}
 }

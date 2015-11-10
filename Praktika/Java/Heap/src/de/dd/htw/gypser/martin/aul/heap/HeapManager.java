@@ -25,45 +25,49 @@ public class HeapManager
 		if (smallerHeapNode.getRightSide() != null)
 		{
 			heap = merge(otherHeapNode, smallerHeapNode.getRightSide());
-			smallerHeapNode.setRightSide(null);
-			smallerHeapNode.setDistanceToLeaf(1);
-			heap = merge(heap, smallerHeapNode);
+			smallerHeapNode.setRightSide(heap);
+			setDistance(smallerHeapNode, heap);
+			heap = smallerHeapNode;
 		}
 		else
 		{
 			if (otherHeapNode.getRightSide() != null)
 			{
-				heap = merge(otherHeapNode.getRightSide(), smallerHeapNode);
+				heap = merge(otherHeapNode.getRightSide(), smallerHeapNode);	
 				otherHeapNode.setRightSide(null);
-				otherHeapNode.setDistanceToLeaf(1);
-				heap = merge(heap, otherHeapNode);
+				heap.setRightSide(otherHeapNode);
 			}
 			else
 			{
 				smallerHeapNode.setRightSide(otherHeapNode);
 
-				int distanceToLeaf = 0;
-				if (smallerHeapNode.getLeftSide() != null)
-				{
-					distanceToLeaf = smallerHeapNode.getLeftSide().getDistanceToLeaf();
-				}
-
-				if (distanceToLeaf < otherHeapNode.getDistanceToLeaf())
-				{
-					HeapNode temp = smallerHeapNode.getLeftSide();
-					smallerHeapNode.setLeftSide(otherHeapNode);
-					smallerHeapNode.setRightSide(temp);
-					smallerHeapNode.setDistanceToLeaf(distanceToLeaf + 1);
-				}
-				else
-				{
-					smallerHeapNode.setDistanceToLeaf(otherHeapNode.getDistanceToLeaf() + 1);
-				}
+				setDistance(smallerHeapNode, otherHeapNode);
 
 				heap = smallerHeapNode;
 			}
 		}
 
 		return heap;
+	}
+
+	private static void setDistance(HeapNode smallerHeapNode, HeapNode otherHeapNode)
+	{
+		int distanceToLeaf = 0;
+		if (smallerHeapNode.getLeftSide() != null)
+		{
+			distanceToLeaf = smallerHeapNode.getLeftSide().getDistanceToLeaf();
+		}
+
+		if (distanceToLeaf < otherHeapNode.getDistanceToLeaf())
+		{
+			HeapNode temp = smallerHeapNode.getLeftSide();
+			smallerHeapNode.setLeftSide(otherHeapNode);
+			smallerHeapNode.setRightSide(temp);
+			smallerHeapNode.setDistanceToLeaf(distanceToLeaf + 1);
+		}
+		else
+		{
+			smallerHeapNode.setDistanceToLeaf(otherHeapNode.getDistanceToLeaf() + 1);
+		}
 	}
 }
