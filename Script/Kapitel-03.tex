@@ -269,57 +269,40 @@ Berechen Sie die längste gemeinsame Teilfolge  der Wörter: BANANE, ANANAS.
 \end{center}
 
 \section{Komplexitätsklassen}
-\begin{itemize}
-	\item P enthält alle Problme, die sich in der Zeit \(\mathcal{O}(n^{k})\) für ein \(k>0\) lösen lassen, wobei \(n\) die Länge der Eingabe ist.
-		Beispiel: Sortieren (\(\mathcal{O}(n \log n)\), Editierdistanz (\(\mathcal{O}(m \cdot n) \subseteq \mathcal{O}((m+n)^{2})\).
-	\item Klasse der NP-vollständigen Probleme. Nicht in Polynoialzeit lösbar.
-	
-	Besteht aus allen Problemen, für die kein Algorithmus in \(\mathcal{O}(n^{k})\) bekannt ist.
-	Es gilt: Wenn es ein NP-vollständiges Problem gibt, das in P liegt, dann liegen alle NP-vollständigen Probleme in P.
-	
-	Wichtige NP-vollständige Probleme:
-	\begin{itemize}
-		\item Erfüllbarkeitsproblem der Aussagenlogik (Gegeben sei eine Formel der Aussagenlogik. Ist diese erfüllbar?)
-		\item Hamilton-Kreis (besitzt ein Graph einen Kreis, der jeden Knoten genau einmal besucht?)
-		\item Travelling Salesmann Problem
-		\item Rucksack-Problem
-	\end{itemize}
-\end{itemize}
+Eine Komplexitätsklasse bezeichnet eine Menge von Problemen, welche sich in einem ressourcenbeschränkten Berechnungsmodell berechnen lassen.
+Definiert wird eine Komplexitätsklasse durch eine obere Schranke für den Bedarf einer bestimmten Ressource unter Voraussetzung eines Berechnungsmodells.
+Die am häufigsten betrachteten Ressourcen sind die Anzahl der notwendigen Berechnungsschritte zur Lösung eines Problems oder der Bedarf an Speicherplatz.
 
-\subsubsection{Anwendungen}
+Folgende Beispiele sollen die Einteilung verdeutlichen:
 \begin{itemize}
-	\item Erfüllbarkeitsproblem der Aussagenlogik (Bsp. Äquivalenz von Schaltkreisem)
-	\item Hamilton-Pfad (Bsp. DNA Sequenzierung)
-	
-	Bsp. ATGCTGATT \(\rightarrow\) Bruchstücke ATG, GCT, TGC, CTG, TGA, GAT, ATT
-	\begin{figure}[htbp]
-		\begin{center}
-			\begin{tikzpicture}[node distance=1.8cm]
-				\node[state] (1) {ATG};
-				\node[state] (2) [below right of=1] {TGC};
-				\node[state] (3) [below right of=2] {GCT};
-				\node[state] (4) [below left of=3] {CTG};
-				\node[state] (5) [left of=4] {TGA};
-				\node[state] (6) [above left of=5] {GAT};
-				\node[state] (7) [above of=6] {ATT};
-				
-				\path[->]
-				(1) edge node[left] {} (2)
-					edge node[left] {} (5)
-				(2) edge node[left] {} (3)
-				(3) edge node[left] {} (4)
-				(4) edge node[left] {} (5)
-					edge node[left] {} (2)
-				(5) edge node[left] {} (6)
-				(6) edge node[left] {} (7)
-					edge node[left] {} (1);
-
-			\end{tikzpicture}
-		\end{center}
-	\end{figure}
-	Suche nach einen Kreis in dem jedes Bruchstück genau einmal vorkommt.
+	\item Rasenmähen hat mindestens lineare Komplexität (in der Fläche), denn man muss die gesamte Fläche mindestens einmal überfahren.
+	\item Suchen im Telefonbuch hat hingegen nur logarithmische Komplexität, denn bei einem doppelt so dickem Telefonbuch schlägt man dieses nur einmal öfter auf (siehe Kapitel \ref{sec:binaereSuche})
 \end{itemize}
-Alle Probleme in NP (und damit auch alle NP-vollständigen Probleme) lassen sich in der Zeit \(2^{\mathcal{O}(n^{k})}\) entscheiden.
+Nachfolgend betrachten wir die die beiden Komplexitätsklassen P und NP genauer.
+
+\begin{description}
+	\item[P] enthält alle Probleme, die sich in der Zeit \(\mathcal{O}(n^{k})\) für ein \(k>0\) entscheiden lassen (polynomialer Zeit).
+		Diese sind meist effizent lösbar.
+		Beispiele:
+			\begin{itemize}
+				\item Sortieren (\(\mathcal{O}(n \log n)\)
+				\item Editierdistanz (\(\mathcal{O}(m \cdot n) \subseteq \mathcal{O}((m+n)^{2})\)
+			\end{itemize}
+	\item[NP] enthält alle Probleme, die sich in der Zeit \(\mathcal{O}(n^{k})\) verifizieren (Prüfen einer gültigen Belegung) lassen.
+		Diese sind nur exponentieller Zeit lösbar.
+		Eine Unterklasse davon sind die NP-vollständigen Probleme.
+		Diese sind mindestens so schwer wie alle Probleme in NP.
+		Wichtige NP-vollständige Probleme:
+		\begin{itemize}
+			\item Erfüllbarkeitsproblem der Aussagenlogik (Gegeben sei eine Formel der Aussagenlogik. Ist diese erfüllbar?)
+			\item Hamilton-Kreis (besitzt ein Graph einen Kreis, der jeden Knoten genau einmal besucht?)
+			\item Travelling Salesmann Problem
+			\item Rucksack-Problem
+		\end{itemize}
+\end{description}
+Es gilt: Wenn ein NP-vollständiges Problem in P liegt, dann liegen alle NP-vollständigen Probleme in P.
+Da bisher kein derartiges Problem gefunden wurde folgt daraus: Für kein NP-vollständiges Problem ist ein polynomialer Algorithmus bekannt.
+
 
 \section{Travelling Salesmann Problem}
 \label{sec:TSP}
