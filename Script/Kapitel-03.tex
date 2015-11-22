@@ -300,7 +300,7 @@ Nachfolgend betrachten wir die die beiden Komplexitätsklassen P und NP genauer.
 			\item Rucksack-Problem
 		\end{itemize}
 \end{description}
-Es gilt: Wenn ein NP-vollständiges Problem in P liegt, dann liegen alle NP-vollständigen Probleme in P.
+Es gilt: Wenn ein NP-vollständiges Problem in P liegt, dann liegen alle NP-voll"-stän"-di"-gen Probleme in P.
 Da bisher kein derartiges Problem gefunden wurde folgt daraus: Für kein NP-vollständiges Problem ist ein polynomialer Algorithmus bekannt.
 
 
@@ -313,29 +313,28 @@ Sei \((d_{ij})_{1 \leq i, j \leq n}\) die entsprechende Entfernungsmatrix.
 Wir betrachten den allgemeinen Fall in dem \(d_{ij} \neq d_{ji}\) sowie \(d_{ij} = \infty\) gelten kann.
 Der naive Algorithmus prüft alle \(n!\) Kombinationen und hat eine Laufzeit in \(\Omega(n!) \cdot \mathcal{O}(n) = \Omega(n!)\).
 
-Optimalitätsprinzip: Wenn eine optimale Rundreise bei Stadt 1 beginnt, dann durch Stadt k führt, dann muss der Weg von k durch die Städte in \(\{2, \ldots, n\} - \{k\}\) ebenfalls optimal sein.
-
-Sein \(l(S,i)\) die Länge des kürzesten Pfades, der bei \(i\) beginnt, dann durch jedes \(j \in S\) genau einmal führt und bei \(n\) endet.
-\begin{figure}[htbp]
-	\begin{center}
-		\begin{tikzpicture}[node distance=2cm]
-			\draw (0,0) circle[radius=2pt] node[align=center, below] {i};
-			\draw (2,0) circle[radius=2pt] node[align=center, below] {n};
-			\draw[thick,decorate,decoration={brace,amplitude=12pt}] (2,-.5) -- (0,-.5) node[midway,below, yshift=-12pt]{s};
-			\draw [zigzag] (.1,0) -- (1.9,0);
-			\draw (4,0) circle[radius=2pt] node[align=center, below] {i};
-			\draw (5,0) circle[radius=2pt] node[align=center, below] {j};
-			\draw (7,0) circle[radius=2pt] node[align=center, below] {n};
-			\draw[->] (4.1,0) -- (4.9,0) node[midway,below, yshift=-12pt]{\(d_{ij}\)};
-			\draw [zigzag] (5.1,0) -- (6.9,0);
-			\draw[thick,decorate,decoration={brace,amplitude=12pt}] (7,-.5) -- (5,-.5) node[midway,below, yshift=-12pt]{\(S-\{j\}\)};
-		\end{tikzpicture}
-	\end{center}
+Optimalitätsprinzip: Wenn eine optimale Rundreise bei Stadt 1 beginnt und dann durch k führt, dann muss der Weg von k durch die Städte in \(\{2, \ldots, n\} - \{k\}\) ebenfalls optimal sein.
+Sei \(l(i,S)\) die Länge des kürzesten Pfades, der bei \(i\) beginnt, dann durch jedes \(j \in S\) genau einmal führt und bei \(n\) endet.
+\begin{figure}[tbp]
+	\centering
+	\begin{tikzpicture}[node distance=2cm]
+		\draw (0,0) circle[radius=2pt] node[align=center, below] {i};
+		\draw (2,0) circle[radius=2pt] node[align=center, below] {n};
+		\draw[thick,decorate,decoration={brace,amplitude=12pt}] (2,-.5) -- (0,-.5) node[midway,below, yshift=-12pt]{s};
+		\draw [zigzag] (.1,0) -- (1.9,0);
+		\draw (4,0) circle[radius=2pt] node[align=center, below] {i};
+		\draw (5,0) circle[radius=2pt] node[align=center, below] {j};
+		\draw (7,0) circle[radius=2pt] node[align=center, below] {n};
+		\draw[->] (4.1,0) -- (4.9,0) node[midway,below, yshift=-12pt]{\(d_{ij}\)};
+		\draw [zigzag] (5.1,0) -- (6.9,0);
+		\draw[thick,decorate,decoration={brace,amplitude=12pt}] (7,-.5) -- (5,-.5) node[midway,below, yshift=-12pt]{\(S-\{j\}\)};
+	\end{tikzpicture}
+	\caption{Veranschaulichung Optimalitätsprinzip}
 \end{figure}
-Die Länge des kürzesten Rundweges ist dann \(l(\{1, \ldots, n-1\}, n)\).
+Die Länge des kürzesten Rundweges ist dann \(l(n, \{1, \ldots, n-1\})\).
 Es gilt:
 \begin{equation*}
-l(S,i) = \left\{
+l(i, S) = \left\{
 	\begin{array}{l l}
 		d_{in} & \quad \text{für } S = \varnothing \text{(keine Zwischenstädte)}\\
 		\min\limits_{j \in S} \{d_{ij} + l(S-\{j\},j)\} & \quad \text{für alle } S \neq \varnothing
@@ -385,11 +384,11 @@ Gesucht ist der kürzeste Weg zur Stadt 4.
   \textbf{Def.:} Sei \(\varepsilon > 1\).
 	Ein Minimierungsproblem heißt \(\varepsilon\)-approximierbar, wenn es einen Algorithmus mit polynomieller Laufzeit gibt, der eine Lösung liefert, die höchstems um \(\varepsilon\) größer ist als das Optimum.
 \end{shaded}
-Falls \(P \neq NP\) gilt, ist für kein \(\varepsilon > 1\) TSP \(\varepsilon\)-approximierbar.
+Für \(P \neq NP\) ist das TSP für kein \(\varepsilon > 1\) approximierbar.
 Falls die Entfernungsmatrix jedoch die Dreiecksungleichung \[d_{uv} \leq d_{uw} + d_{wv}\] gilt (\(\Delta\)-TSP), dann ist das Problem \(\frac{3}{2}\)-approximierbar.
-Wenn es für die Anwendung nicht notwendig ist, dass kein Punkt mehrfach besucht wird, kann die Dreiecksungleichung immer erfüllt werden, indem die Kante von \(u\) nach \(v\) durch die kürzeste Verbindung von \(u\) nach \(v\) ersetzt wird.
+Die Gültigkeit der Dreiecksungleichung lässt sich immer erreichen indem ggf. Kanten durch kürzere Wege ersetzt werden.
 
-Ein Spezialfall des \(\Delta\)-TSP ist das Euklidischen TSP, bei dem die Entfernungen gleich dem geometrischen Abstand sind. Für jedes \(\delta > 1\) ist das Euklidische TSP in der Ebene \(1+\frac{1}{\delta}\)-approximierbar.
+Ein Spezialfall des \(\Delta\)-TSP ist das Euklidischen TSP, bei dem die Abstände gleich dem geometrischen Abstand sind. Für jedes \(\delta > 1\) ist das Euklidische TSP in der Ebene \(1+\frac{1}{\delta}\)-approximierbar.
 Der zugehörige Approximationsalgorithmus besitzt eine Laufzeit in \(\mathcal{O}(n \log(n))^{\mathcal{O}(\delta)}\).
 
 Anwendungen des TSP:
@@ -411,24 +410,15 @@ Unter dieser Bedingung soll der Nutzwert der ausgewählten Objekte maximiert wer
 Anwendungen:
 \begin{itemize}
 	\item öffentliche Haushaltsführung
-	\item Reduzierung des Verschnits (Bsp. Fließen, Folien)
+	\item Reduzierung des Verschnitts (Bsp. Fließen, Folien)
 	\item Logistik (Bsp. Transport mittels Frachschiff)
 \end{itemize}
 
-Gegebenen seien n Gegenstände mit den Werten \(x_{1}, \dots, x_{n}\) und gesucht sei eine Menge \(S \subseteq \{1, \dots, n\}\) mit
-\(\max \sum\limits_{s \in S}x_{s}\) und \( \sum\limits_{s \in S}x_{s} \leq y \).
+Gegebenen seien n Gegenstände mit den Werten \(x_{1}, \dots, x_{n}\).
+Gesucht ist eine Auswahl, die den Wert der Gegenstände maximiert und einen Schwellwert \(y\) nicht überschreitet.
 
 Das Rucksackproblem ist NP-vollständig, es lässt sich mit einem dynamischen Pro\-gram\-mier-Algorithmus wie folgt lösen:
 Sei \(r(n,y)\) der Wert einer Lösung des Rucksackproblems für die Werte \(x_{1}, \dots, x_{n}\) und der Rucksackgröße \(y\) dann gilt:
-\begin{itemize}
-	\item \(r(n,y) = 0\) für \(n=0\)
-	\item \(r(n,y) = r(n-1,y)\) für \(y>0\) und \(x_{n} > y\)
-	\item Für \(n > 0\) und \(x_{n} < y\) kann der Gegenstand n entweder eingepackt oder nicht eingepackt werden
-		\begin{itemize}
-			\item Wenn Gegenstand nicht eingepackt wird, gilt: \[r(n,y) = r(n-1,y)\]
-			\item Wenn Gegenstand n eingepackt wird: \[r(n,y) = r(n-1,y-x_{n})+x_{n}\]
-		\end{itemize}
-\end{itemize}
  \[r(n,y) = \left\{
 			\begin{array}{l l}
 				0 				& \quad \text{für } n=0\\
@@ -441,32 +431,18 @@ Sei \(r(n,y)\) der Wert einer Lösung des Rucksackproblems für die Werte \(x_{1
 				\end{array} & \quad \text{sonst}
 		\end{array} \right.\]
 
-Die laufzeit des Rucksack-Algorithmuses beträgt: \(\mathcal{O}(ny)\).
+Die Laufzeit des Rucksack-Algorithmuses beträgt: \(\mathcal{O}(ny)\).
 Es stellt sich daher die Frage ob dies ein polynomieller Algorithmus für das Rucksackproblem ist (woraus P=NP folgen würde)?
 
-Die Laufzeit eines Algorithmuses wird gemessen in der Länge der Eingabe.
-Im Falle des Rucksackproblems ist die Eingabe das Tupel \((x_{1}, \dots, x_{n}, y)\).
-Wenn diese Werte binär codiert werden, hat dieses Tupel eine Länge \(\leq (n+1)|y| = (n+1) \log(y)+\mathcal{O}(1)\).
-Die Laufzeit liegt daher in \(\Omega(ny) = \Omega(n \cdot 2^{\log(y)+\mathcal{O}(1)}) = \Omega(n \cdot 2^{|x|})\)
+Probleme werden in der Komplexitätstheorie als Mengen dargestellt und die Laufzeit als Funktion in der Länge einer Instanz.
+Die Länge einer Instanz ist \((x_1, \dots, x_n, y)\).
+Um \(y\) über dem Alphabet \({0,1}\) (binär) darzustellen werden \(\log_2y + \mathcal{O}(1)\) Zeichen benötigt.
+Als Funktion der Länge der Eingabe ergibt sich für die Laufzeit \(ny = n2^{\log_2y}\).
+Die Laufzeit ist damit exponentiell in der Länge der Eingabe.
+
 \begin{shaded}
 	\noindent
 	\textbf{Def.:} Ein Algorithmus heißt pseudopolynomiell, wenn seine Laufzeit durch ein Polynom in der Eingabelänge und der größten, in der Eingabe vorkomenden Zahl beschränkt ist.
 \end{shaded}
-Mit Hilfe eines NP-vollständigen Problems kann man die NP-Vollständigkeit weitere Probleme nachweisen.
-Prinzip: Wenn sich mit ein angenommener pseudopolynomieller Algorithmus für ein Problem B auch für ein NP vollständiges Problem A in polynomieller Zeit lösen lässt.
-\newpage
-\begin{lstlisting}[language=java, caption={Pseudocode des Prinzips}]
-boolean A(Input x)
-	return B(f(x))
-\end{lstlisting}
-Dabei ``übersetzt'' f das Problem A in das Problem B.
-\subsubsection{Übung}
-Sei
-\[KP = \bigcup_{n \geq 1} \{ (x_{1}, \dots, x_{n}, y, v_{1}, \dots, v_{n}, t) \:|\: \text{Es gibt ein } S \subseteq \{1, \ldots, n\} \text{mit}\]\[ \sum\limits_{s \in S} x_{s} \leq y \text{ und } t \leq \sum\limits_{s \in S} v_{s}\}\]
-Zeigen Sie, dass KP NP-vollständig ist.
-
-\begin{lstlisting}[language=java, caption={Beispiellösung Übung}]
-set Rucksack(x1 ... xn, y)
-	return KP(x1, ... xn, y, x1 ... xn)
-\end{lstlisting}
-Wenn KP polynomial ist, dann ist auch Rucksack polynomial. Widerspruch da Rucksack NP.
+Das Rucksackproblem ist pseudopolynomiell: Sein \(|w|\) die Eingabelänge und \(m = \max(x_1, \dots, x_n, y)\) (Das Längste Wort der Kodierung).
+Dann gilt: \(n\leq |w|\), woraus \(\mathcal{O}(ny) \subseteq \mathcal{O}(|w|m)\) folgt.
