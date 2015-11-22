@@ -32,7 +32,7 @@ boolean bfs(start, goal) {
 	return false;
 }
 \end{lstlisting}
-
+\newpage
 Für dieses Beispiel fallen folgende Laufzeiten an:
 \begin{itemize}
 	\item Zeile 4-5: \(\mathcal{O}(|V|)\)
@@ -71,24 +71,24 @@ wobei
 \end{itemize}
 sind.
 Eine Kostenschätzfunktion \(h\) ist zulässig, wenn sie die Kosten zum Ziel nicht überschätzt.
-
 \begin{figure}[htbp]
-	\begin{center}
-		\begin{tikzpicture}[node distance=2cm]
-			\draw (0,0) circle[radius=4pt] node[align=center, below, yshift=-4mm] {Start};
-			\draw (2,0) circle[radius=4pt] node[align=center, below, yshift=-4mm] {v};
-			\draw [zigzag] (0.2,0) -- (1.8,0);
-			\draw (4,0) circle[radius=4pt] node[align=center, below, yshift=-4mm] {Ziel};
-			\draw [dotted] (2.2,0) -- (3.8,0);
-			\draw[thick,decorate,decoration={brace,amplitude=12pt}] (2,-.8) -- (0,-.8) node[midway,below, yshift=-12pt]{\(g(v)\)};
-			\draw[thick,decorate,decoration={brace,amplitude=12pt}] (4,-.8) -- (2,-.8) node[midway,below, yshift=-12pt]{\(h(v)\)};
-		\end{tikzpicture}
-	\end{center}
+	\centering
+	\begin{tikzpicture}[node distance=2cm]
+		\draw (0,0) circle[radius=4pt] node[align=center, below, yshift=-4mm] {Start};
+		\draw (2,0) circle[radius=4pt] node[align=center, below, yshift=-4mm] {v};
+		\draw [zigzag] (0.2,0) -- (1.8,0);
+		\draw (4,0) circle[radius=4pt] node[align=center, below, yshift=-4mm] {Ziel};
+		\draw [dotted] (2.2,0) -- (3.8,0);
+		\draw[thick,decorate,decoration={brace,amplitude=12pt}] (2,-.8) -- (0,-.8) node[midway,below, yshift=-12pt]{\(g(v)\)};
+		\draw[thick,decorate,decoration={brace,amplitude=12pt}] (4,-.8) -- (2,-.8) node[midway,below, yshift=-12pt]{\(h(v)\)};
+	\end{tikzpicture}
+	\caption{Veranschaulichung der heuristische Bewertungsfunktion}
 \end{figure}
+\newpage
 Bei einer Navigation könnten die Funktionen wie folgt definiert sein:
 \begin{itemize}
 	\item \(g(v)\): Strecke von Start bis v
-	\item \(h(v)\): Luftlinieentfernung von v zum Ziel
+	\item \(h(v)\): Luftlinienentfernung von v zum Ziel
 \end{itemize}
 
 \subsubsection{Übung}
