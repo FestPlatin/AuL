@@ -8,7 +8,7 @@ Die Codierung muss eindeutig decodierbar sein.
 
 \begin{shaded}
   \noindent
-  \textbf{Def.:} Ein Präfixcode ist ein Code, so dass kein Codewort Präfix eines anderen Codewortes ist.
+  \textbf{Def.:} Ein Präfixcode ist ein Code, bei dem kein Codewort Präfix eines anderen Codewortes ist.
 \end{shaded}
 
 \subsubsection{Beispiel}
@@ -67,7 +67,26 @@ while (mehr als ein Baum vorhanden)
 	Wahrscheinlichkeiten zu einem neuen Baum,
 	die Wahrscheinlichkeiteb addieren sich.
 \end{lstlisting}
-\subsubsection{Beispiel}
+Ein effizente Implentierung verwendet einen Min-Heap.
+Die Laufzeit beträgt daher:
+\begin{itemize}
+	\item Heap initialisieren: \(\mathcal{O}(n)\)
+	\item In jedem Schritt: Zwei Bäume entfernen und neuen Baum hinzufügen: \(\mathcal{O}(\log n)\)
+	\item Nach \(\mathcal{O}(n) +1\) Schitten ist der Codebaum konstruiert
+\end{itemize}
+Die Laufzeit liegt daher in \(\mathcal{O}(n \log n)\)
+
+\subsection{Optimalität des Huffman-Codes}
+\begin{shaded}
+  \noindent
+  \textbf{Def.:} Für eine Wahrscheinlichkeitsverteilung mit den Massen \(p_1, \dots, p_n\) ist die Entropie wie folgt definiert:
+	\[H(p_1, \dots, p_n) = -\sum_{k=1}^n p_k \log_2 p_k \]
+	Sie gibt an wieviele Bits man benötigt um die Wörter zu codieren.
+\end{shaded}
+Für den Huffman-Code gilt:
+\[H(p_1, \dots, p_n) \leq \text{mittlere Codewortlänge} \leq H(p_1, \dots, p_n)+1\]
+
+\subsection{Beispiel}
 \begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}[sibling distance=5mm]
@@ -115,7 +134,7 @@ while (mehr als ein Baum vorhanden)
 			\node[state, right of=5]	(6)		{a};
 			\node[above of=6] 			(11)	{0,45};
 		\end{tikzpicture}
-		\vspace{0.5cm}
+		\vspace{1cm}
 		\\ 
 		% 2. Zeile
 		\begin{tikzpicture}[sibling distance=10mm]
@@ -149,7 +168,7 @@ while (mehr als ein Baum vorhanden)
 			\node[state]				(3)		{a};
 			\node[above of=3] 			(31)	{0,45};
 		\end{tikzpicture}
-		\vspace{0.5cm}
+		\vspace{1cm}
 		\\
 		% 3. Zeile
 		\begin{tikzpicture}[sibling distance=10mm]
@@ -184,8 +203,11 @@ while (mehr als ein Baum vorhanden)
 			\node[state]				(3)		{a};
 			\node[above of=3] 			(31)	{0,45};
 		\end{tikzpicture}
-		\vspace{0.5cm}
-		\\
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{llll}
 		% 4. Zeile
 		\begin{tikzpicture}[sibling distance=5mm]
 			\node[state]				(3)		{a};
@@ -220,6 +242,7 @@ while (mehr als ein Baum vorhanden)
 		}
 	\end{tabular}
 \end{center}
+Das Ergbiss ist:
 \begin{center}
 	\begin{tikzpicture}[sibling distance=5mm]
 		\tikzstyle{end} = [circle, minimum width=4pt,fill, inner sep=0pt]
