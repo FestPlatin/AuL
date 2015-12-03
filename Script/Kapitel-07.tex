@@ -1,6 +1,6 @@
 
 
-\chapter{Markov-Ketten, HMM}
+\chapter{Markov-Ketten, Hidden Markov Modelle}
 Eine Markov-Kette ist ein stochastischer Prozess, der durch Zustände und Über-gangswahrscheinlichkeiten beschrieben wird.
 \begin{figure}[htbp]
 	\centering
@@ -74,25 +74,29 @@ Aus \(Z_1\) ergibt sich die Startverteilung \[\pi_k=P(Z_1=k)\] der Markov-Kette.
 
 Da \(Z_{k+1}\) nur von \(Z_k\) abhängt, folgt:
 \begin{eqnarray*}
-	&&P(\underbrace{Z_{k+1}}_{\text{Zufallsvariable}}=\underbrace{k+1}_{\text{Zustand}}|Z_k=z_k,\dots,Z_1=z_1)\\
+    &&P(\underbrace{Z_{k+1}}_{\text{Zufallsvariable}}=\underbrace{z_{k+1}}_{\text{Zustand}}|Z_k=z_k,\dots,Z_1=z_1)\\
 	&=& P(Z_{k+1}=z_{k+1}|Z_k=z_k)\\
 	&=:& p(z_k,z_{k+1})
 \end{eqnarray*}
 Sei \(A_k\) die Zufallsvariable, die das in Schritt \(k\) ausgegebene Zeichen angibt.
 \(A_k\) hängt nur von \(Z_k\) ab:
 \[P(A_k=a|Z_k=z_k,\dots,Z_1=z_1) = P(A_k=a|Z_k=z_k) =: q_{z_k}(a)\]
-Die charakteristischen Größen eines HMM sind damit \(\pi_k, p(z,z'), q_z(a)\).
+Die charakteristischen Größen eines HMM sind damit $\pi_k,\; p(z,z'),\; q_z(a)$.
 
 Für eine Folge \(a_1,\dots,a_n\) von beobachteten Zeichen suchen wir eine Folge \(z_1,\dots,z_n\) von Zuständen, so dass
 \[P(Z_1=z_1,\dots,Z_n=z_n|A_1=a_1,\dots,A_n=a_n)\]
 maximal ist.
-Da
+Da in
 \begin{eqnarray*}
-	&&P(Z_1=z_1, \dots, Z_n=z_n | A_1=a_1, \dots A_n=a_n)\\
-	&=& \frac{P(Z_1=z_1, \dots, Z_n=z_n) \cap P(A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)} \\
-	&=& \frac{P(Z_1=z_1, \dots, Z_n=z_n, A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)}
+    \frac{P(Z_1=z_1, \dots, Z_n=z_n,\; A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)} \\
 \end{eqnarray*}
-und der Nenner unabhängig von der Lösung ist (da er der Beobachtung entspricht), maximieren wir den Zähler.
+der Nenner unabhängig von der Lösung ist, maximieren wir den Zähler.
+%\begin{eqnarray*}
+	%&&P(Z_1=z_1, \dots, Z_n=z_n | A_1=a_1, \dots A_n=a_n)\\
+	%&=& \frac{P(Z_1=z_1, \dots, Z_n=z_n) \cap P(A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)} \\
+	%&=& \frac{P(Z_1=z_1, \dots, Z_n=z_n, A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)}
+%\end{eqnarray*}
+%und der Nenner unabhängig von der Lösung ist (da er der Beobachtung entspricht), maximieren wir den Zähler.
 
 Sei
 \begin{eqnarray*}
@@ -190,7 +194,7 @@ Berechnen Sie die wahrscheinlichste Zustandsfolge die diese Folge erzeugt hat
 											& 0,1\cdot0,0081\}\\
 										   =& 0,091125
 					\end{array}
-					\))
+					\)
 				&   \(	\begin{array} {r@{}l@{}}
 							0,1\cdot\max\{	& 0,9\cdot0,008; \\
 											& 0,1\cdot0,2\}\\
