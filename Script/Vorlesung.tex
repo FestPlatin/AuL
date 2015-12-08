@@ -1,5 +1,7 @@
-\documentclass[a4paper,10pt]{scrreprt}
+\documentclass[a4paper,10pt,parskip=full,
+]{scrreprt}
 \usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}			% deutsche Silbentrennung
 \usepackage{listings}				% Codeblock einbinden
 \usepackage{color}					% Farbe einbinden
@@ -10,10 +12,23 @@
 \usepackage{makeidx}				% Stichwortverzeichnis einbinden
 \usepackage{framed}					% Rahmen für Definitinen
 \usepackage{amssymb}   				% Mathematische Symbole und Zeichen
-\usepackage{amsmath}   				% Mathematische Symbole und Zeichen
+\usepackage[fleqn]{amsmath} % Mathematische Symbole und Zeichen
 \usepackage{subfig}
 \usepackage{adjustbox}
 \usepackage{algpseudocode} 
+
+\usepackage{lmodern}
+\usepackage{cleveref}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{wrapfig}
+\usepackage{mathtools}
+\usepackage{placeins}
+\usepackage{cancel}
+\usepackage{booktabs}
+\usepackage{ulem}
+\usepackage{color}
+\usepackage{titlesec}
 \definecolor{javared}{rgb}{0.6,0,0} % for strings
 \definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
 \definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords

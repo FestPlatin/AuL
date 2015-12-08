@@ -119,14 +119,16 @@ Sei
 Der Viterbi-Algorithmus ist ein Algorithmus der dynamischen Programmierung zur Bestimmung der wahrscheinlichsten Sequenz
 von verborgenen Zuständen bei einem gegebenen Hidden Markov Model (HMM) und einer beobachteten Sequenz von Symbolen.
 Diese Zustandssequenz wird auch als Viterbi-Pfad bezeichnet.
-\[
-	t(Z,k) =
-		\begin{cases}
-			q_Z(a_1) \cdot \pi_Z 								& \text{für } k=1\\
-			q_Z(a_k) \cdot \underset{z'}{\max}\{p(z',z) \cdot t(z',k-1)\} & \text{für } k>1\\
-		\end{cases}
-\]
-Die Laufzeut beträgt \(\underbrace{\mathcal{O}(|Z| \cdot n)}_{\text{Größe der Tabelle}} \cdot \underbrace{\mathcal{O}(|Z|)}_{\text{Aufwand pro Zell}} = \mathcal{O}(|Z|^2 \cdot n)\)
+\begin{align*}
+    t(Z,n) =
+    \begin{cases}
+        q_Z(a_1) \cdot \pi_Z 								& \text{für } n=1\\
+        q_Z(a_n) \cdot \max_{z'} \left(p(z',z) \cdot t(z',n-1)\right) & \text{für } n>1\\
+    \end{cases}
+\end{align*}
+Die Laufzeit beträgt \(\underbrace{\mathcal{O}(|Z| \cdot n)}_{\text{Größe der
+            Tabelle}} \cdot \underbrace{\mathcal{O}(|Z|)}_{\text{Aufwand pro
+            Zelle}} = \mathcal{O}(|Z|^2 \cdot n)\)
 
 \begin{figure}[htbp]
 	\centering
@@ -135,7 +137,7 @@ Die Laufzeut beträgt \(\underbrace{\mathcal{O}(|Z| \cdot n)}_{\text{Größe der
 		\node[state] (z') [left=1.5cm of z]     {z'};
 		\node[state] (e1) [above of=z']  {};
 		\node[state] (e2) [below of=z'] {};
-		\node (a) [below=.5cm of e2] {\(\underbrace{a_1 \dots a_{k-1}}_{t(z'6,k-1)}\)};
+        \node (a) [below=.5cm of e2] {\(\underbrace{a_1\; \dots\; a_{k-1}}_{t(z',k-1)}\)};
 		\node[emission] (ak) [below of=z] {$a_k$};
 		\path[->] 
 			(e1) edge (z)
@@ -143,11 +145,13 @@ Die Laufzeut beträgt \(\underbrace{\mathcal{O}(|Z| \cdot n)}_{\text{Größe der
 			(z') edge [above] node {P(z',z)} (z)
 			(z)	 edge [right] node {\(q_z(a_k)\)} (ak);
 	\end{tikzpicture}
+    \caption{Verdeutlichung des Viterbi-Algorithmusses.}\label{fig:viterbi}
 \end{figure}
 Um die numerische Stabilität des Verfahrens zu erhöhen, ist es Vorteilhaft, mit den Logarithmen zu rechnen.
 
 \subsubsection{Beispiel}
-Gegeben sei das folgende HMM-Model mit der Folge ``kzzkkzkkkkkk''.
+Gegeben sei das folgende HMM-Model (\cref{fig:hmmbsp}) mit der Folge ``k z z k k z k k k k k k''
+(mit k=Kopf, z=Zahl).
 Berechnen Sie die wahrscheinlichste Zustandsfolge die diese Folge erzeugt hat
 \begin{figure}[htbp]
 	\centering
@@ -171,6 +175,7 @@ Berechnen Sie die wahrscheinlichste Zustandsfolge die diese Folge erzeugt hat
 				edge [right] node {0,1} (z)
 				edge [right] node {0,9} (k);
 	\end{tikzpicture}
+    \caption{HMM für Beispiel X.}\label{fig:hmmbsp}
 \end{figure}
 
 \begin{center}
