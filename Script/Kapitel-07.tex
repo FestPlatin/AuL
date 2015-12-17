@@ -390,12 +390,19 @@ wobei \(a_1, \dots, a_n\) die beobachtete Ausgabe und \(\Theta\) die Menge der z
 \begin{shaded}
 	\noindent
 	\textbf{Wdh. Disjunkte Zerlegung:}
-	\begin{eqnarray*}
-		P(A) = P(A \cap \Omega) &=& P(A \cap (B \cup \bar{B}))\\
-								&=& P((A \cap B) \cup (A \cap \bar{B}))\\
-								&=& P(A \cap B + A \cap \bar{B})\\
-								&=& P(A \cap B)+P(A \cap \bar{B})
-	\end{eqnarray*}
+    \begin{eqnarray*}
+        P(A) = P(A \cap \Omega) &=& P(A \cap (B \cup \bar{B}))\\
+                                &=& P((A \cap B) \cup (A \cap \bar{B}))\\
+                                &=& P(A \cap B + A \cap \bar{B})\\
+                                &=& P(A \cap B)+P(A \cap \bar{B})
+    \end{eqnarray*}
+    \begin{eqnarray*}
+        P(A) = P(A \cap \Omega) &=& P(A \cap \sum\limits^n_{k=1} B_k)\\
+        &=& P(\sum\limits_{k=1}^n(A \cup B_k))\\
+                                &=& P((A \cap B) \cup (A \cap \bar{B}))\\
+                                &=& P(A \cap B + A \cap \bar{B})\\
+                                &=& P(A \cap B)+P(A \cap \bar{B})
+    \end{eqnarray*}
 	\(P(A) = \sum_i P(A \cap B_i)\), wenn \(B_i \Omega\) partitioniert.
 	\begin{center}
 		\begin{tikzpicture}
@@ -410,11 +417,12 @@ wobei \(a_1, \dots, a_n\) die beobachtete Ausgabe und \(\Theta\) die Menge der z
 	\end{center}
 \end{shaded}
 Für eine Beobachtung \(a_1, \dots, a_n\) eines HMM suchen wir \(P(A_1=a_1, \dots, A_n=a_n)\).
-Die ist Schwierigkeit dabei das die Zustände nicht bekannt sind.
+Die Schwierigkeit dabei ist, dass die Zustandsfolge unbekannt ist.
 
-Der naiver Ansatz ist die disjunkte Zerlegung nach \(Z_1, \dots, Z_n\):
+Der naiver Ansatz ist die disjunkte Zerlegung nach Zustandsfolge \(Z_1, \dots, Z_n\):
 \[P(A_1=a_1, \dots, A_n=a_n) = \sum\limits_{z_1, \dots, z_n} P(A_1=a_1, \dots, A_n=a_n, Z_1=z_1, \dots, Z_n=z_n)\]
 Da diese Summe aus \(|Z|^n\) Summanden besteht, ist dies jedoch ineffizient.
+Die Laufzeit wäre: $O(|Z|^n\cdot n)$.
 
 Mit dynamischer Programmiereung berechnen wir
 \begin{eqnarray}
@@ -432,19 +440,20 @@ Mit dynamischer Programmiereung berechnen wir
 	\begin{tikzpicture}[node distance=1.5cm]
 		\node[state] (j)                 {j};
 		\node[state] (i) [left=2cm of j]	{i};
-		\node[state] (s1) [above of=i]	{};
-		\node[state] (s2) [below of=i]	{};
+        \node[state] (s1) [above=of i]	{};
+		\node[state] (s2) [below=of i]	{};
 		\node (at-1) [below =.5cm of s2] {\(a_{t-1}\)};
-		\node (...) [left of=at-1] {\(\dots\)};
-		\node (a1) [left of=...] {$a_1$};
-		\node[emission] (at) [below of=j] {\(a_t\)};
-		\path[->] 
+        \node (dots) [left=of at-1] {\(\dots\)};
+        \node (a1) [left=of dots] {$a_1$};
+		%\node[emission] (at) [below of=j] {\(a_t\)};
+        \node[emission] (at) [right = 1.85cm of at-1] {\(a_t\)};
+        \path[->]
 			(s1) edge (j)
 			(s2) edge (j)
 			(i) edge [above] node {\(p(i,j)\)} (j)
 			(j)	edge [right] node {\(q_j(a_t)\)} (at);
 	\end{tikzpicture}
-	\caption{Skizze des Forward-Algorithmuses}
+	\caption{Skizze des Forward-Algorithmus}
 \end{figure}
 
 Für t=1 gilt
@@ -500,22 +509,62 @@ Ferner sei \(\beta_n(j)=1\) für alle \(j\).
 	\caption{Skizze des Backward-Algorithmuses}
 \end{figure}
 
+Die Laufzeit des Backward-Algorithmus liegt damit in 
+\begin{align*}
+    O(n\cdot{|Z|}^2).
+\end{align*}
+
 Die Wahrscheinlichkeit für den Zustand \(j\) im Schritt \(t\) ergibt sich aus
-\[P(Z_t=j|A_1=a_1, \dots, A_n=a_n) = \frac{\alpha_t(j)\cdot\beta_t(j)}{\sum_i \alpha_n(i)}\]
+\begin{align*}
+    P(Z_t=j|A_1=a_1, \dots, A_n=a_n) =&
+    \frac{P(A_1=a_1,\ldots,A_n=a_n,Z_t=j)}{P(A_1=a_1,\ldots,A_n=a_n)}\\
+=&\frac{\alpha_t(j)\cdot\beta_t(j)}{\sum_i \alpha_n(i)}
+\end{align*}
 Aufwand dazu \(\underbrace{\mathcal{O}(n\cdot|Z|^2)}_{\alpha\text{-Tabelle}} + \underbrace{\mathcal{O}(n\cdot|Z|^2)}_{\beta\text{-Tabelle}} + \underbrace{\mathcal{O}(|Z|)}_{\text{Summe}}+\underbrace{\mathcal{O}(1)}_{\text{Zugriff auf }\alpha_t(j) \text{und }\beta_t(j)}=\mathcal{O}(n\cdot|Z|^2)\)
-		
-		
-		
-		
 
 \section{Posterior Decoding}
 Wenn der Viterbi-Algorithmus viele unterschiedliche Pfade mit annähernd gleicher Wahrscheinlichkeit liefert, dann lässt sich die Wahl des wahrscheinlichsten Pfades nicht gut rechtfertigen.
-Alternativ können wir mit dem Backward-Algorithmus die Folge der in jeden Zeitpunkt t wahrscheinlichsten Zustände
-\[ \hat z_{k} = \arg_{j}\max P(Z_{t} = j | A_{1} = a_{1}, \ldots, A_{n} = a_{n}) \]
+Alternativ können wir mit dem Backward-Algorithmus die Folge der in jedem
+Zeitpunkt $t$ wahrscheinlichsten Zustände
+\[ \hat z_{t} = \arg_{j}\max P(Z_{t} = j | A_{1} = a_{1}, \ldots, A_{n} = a_{n}) \]
 bestimmen.
 Diese muss jedoch keine zuverlässige Folge sein.
 
-\subsubsection{Übung}
+\begin{shaded}
+\paragraph{Übung}
+\label{par:ubung}
+
+Es sollen codierende und nicht-codierende Abschnitte in DNA bestimmt werden.
+Vorhanden sind:
+\begin{itemize}
+    \item einige codierende Sequenzen
+    \item einige nicht-codierende Sequenzen
+    \item große Menge an unbekannten Sequenzen
+\end{itemize}
+Gesucht ist ein Verfahren um codierende Regionen in DNA zu identifizieren,
+gegeben eine DNA Sequenz.\\
+Lösung:
+\begin{itemize}
+    \item Hidden-Markov-Model wie in BildX
+    \item jeweils einen ML-Schäter für beide Zustandsmenge \{codierend,
+        nicht-codierend\} (überwachtes Training)
+    \item Übergangswahrscheinlichkeiten zwischen den Zustandsmengen \{codierend,
+        nicht-codierend\} mittels unüberwachtem Training (Viterbi-Training oder
+        Baum-Welch-Algorithmus)
+    \item Backward-Algorithmus
+        \begin{align*}
+            P(Z_t \in \{a_c,c_c,g_c,t_c\} | A_1=a_1,\ldots,A_n=a_n)=\\
+            \sum\limits_{z\in a_c,c_c,g_c,t_c} P(Z_t=z|A_1=a_1,\ldots,A_n=a_n)
+        \end{align*}
+\end{itemize}
+Wenn das Ergebnis größer als $\frac{1}{2}$ ist, ist es eine codierende Sequenz,
+sonst uncodierend.
+\end{shaded}
+
+\begin{shaded}
+\paragraph{Übung}
+\label{par:ubung2}
+
 Gegeben sei ein HMM.
 In diesem werden die Zustände verdoppelt.
 Wie muss sich die Länge der Trainigssequenz erhöhen, damit die gleiche Anzahl Zustandsübergänge vorhanden ist wie vorher.
@@ -524,6 +573,7 @@ Vereinfacht sein angenohmen das alle Zustandsübergänge die gleiche Wahrscheinl
 Lösung:
 \[\hat p(z,z') = \frac{n}{|z^2|}\]
 Die Trainigssequenz muss 4-fach solang sein.
+\end{shaded}
 
 \section{Baum-Welch-Algorithmus}
 Der Baum-Welch-Algorithmus wird benutzt, um die unbekannten Parameter eines Hidden Markov Models (HMM) zu finden.
