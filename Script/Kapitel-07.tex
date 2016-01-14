@@ -373,20 +373,12 @@ wobei \(a_1, \dots, a_n\) die beobachtete Ausgabe und \(\Theta\) die Menge der z
 \begin{shaded}
 	\noindent
 	\textbf{Wdh. Disjunkte Zerlegung:}
-    \begin{eqnarray*}
-        P(A) = P(A \cap \Omega) &=& P(A \cap (B \cup \bar{B}))\\
-                                &=& P((A \cap B) \cup (A \cap \bar{B}))\\
-                                &=& P(A \cap B + A \cap \bar{B})\\
-                                &=& P(A \cap B)+P(A \cap \bar{B})
-    \end{eqnarray*}
-    \begin{eqnarray*}
-        P(A) = P(A \cap \Omega) &=& P(A \cap \sum\limits^n_{k=1} B_k)\\
-        &=& P(\sum\limits_{k=1}^n(A \cup B_k))\\
-                                &=& P((A \cap B) \cup (A \cap \bar{B}))\\
-                                &=& P(A \cap B + A \cap \bar{B})\\
-                                &=& P(A \cap B)+P(A \cap \bar{B})
-    \end{eqnarray*}
-	\(P(A) = \sum_i P(A \cap B_i)\), wenn \(B_i \Omega\) partitioniert.
+	\begin{eqnarray*}
+		P(A) = P(A \cap \Omega) &=& P(A \cap (B \cup \bar{B}))\\
+								&=& P((A \cap B) \cup (A \cap \bar{B}))\\
+								&=& P(A \cap B + A \cap \bar{B})\\
+								&=& P(A \cap B)+P(A \cap \bar{B})
+	\end{eqnarray*}
 	\begin{center}
 		\begin{tikzpicture}
 			\draw (0,0) rectangle (3,2);
@@ -398,26 +390,64 @@ wobei \(a_1, \dots, a_n\) die beobachtete Ausgabe und \(\Theta\) die Menge der z
 			\draw (3.2,1.8) node {$\Omega$};
 		\end{tikzpicture}
 	\end{center}
+	
+    \begin{eqnarray*}
+        P(A) = P(A \cap \Omega) &=& P(A \cap \sum\limits^n_{k=1} B_k)\\
+        &=& P(\sum\limits_{k=1}^n(A \cup B_k))\\
+                                &=& P((A \cap B) \cup (A \cap \bar{B}))\\
+                                &=& P(A \cap B + A \cap \bar{B})\\
+                                &=& P(A \cap B)+P(A \cap \bar{B})
+    \end{eqnarray*}
+    \begin{center}
+		\begin{tikzpicture}
+			\draw (0,0) rectangle (3,2);
+			\draw (.6,0) -- (.6,2);
+			\draw (1.2,0) -- (1.2,2);
+			\draw (1.8,0) -- (1.8,2);
+			\draw (2.4,0) -- (2.4,2);
+			\draw (1.3,1.0) ellipse (1.0cm and 0.7cm);
+			\draw (0.2,-.3) node {\(B_1\)};
+			\draw (0.8,-.3) node {\(B_2\)};
+			\draw (2.8,-.3) node {\(B_n\)};
+			\draw (1.3,0.7) node {$A$};
+			\draw (3.2,1.8) node {$\Omega$};
+		\end{tikzpicture}
+	\end{center}
+	\(P(A) = \sum_i P(A \cap B_i)\), wenn \(B_i \Omega\) partitioniert.
+
 \end{shaded}
 Für eine Beobachtung \(a_1, \dots, a_n\) eines HMM suchen wir \(P(A_1=a_1, \dots, A_n=a_n)\).
 Die Schwierigkeit dabei ist, dass die Zustandsfolge unbekannt ist.
-
 Der naiver Ansatz ist die disjunkte Zerlegung nach Zustandsfolge \(Z_1, \dots, Z_n\):
 \[P(A_1=a_1, \dots, A_n=a_n) = \sum\limits_{z_1, \dots, z_n} P(A_1=a_1, \dots, A_n=a_n, Z_1=z_1, \dots, Z_n=z_n)\]
 Da diese Summe aus \(|Z|^n\) Summanden besteht, ist dies jedoch ineffizient.
 Die Laufzeit wäre: $O(|Z|^n\cdot n)$.
 
-Mit dynamischer Programmiereung berechnen wir
+Mit dynamischer Programmiereung erhalten wir ein effizenters Verfahren dazu sei:
 \begin{eqnarray}
 	\alpha_t(j) &=& P(A_1=a_1, \dots, A_t=a_t,Z_t=j)\nonumber\\
 				&=& \sum_i P(A_1=a_1, \dots, A_t=a_t, Z_{t-1}=i, Z_t=j)		\nonumber\\
 				&=& \sum_i P(A_t=a_t|A_1=a_1, \dots, _{t-1}=a_{t-1}, Z_{t-1}=i,Z_t=j) \nonumber\\
 				&& \cdot P(A_1=a_1, \dots, A_{t-1}=a_{t-1}, Z_{t-1}=i, Z_t=j)\nonumber\\
-		&=& \sum_i P(A_t=a_t|Z_t=j) \cdot P(A_1=a_1,\dots, A_{t-1}=a_{t-1},Z_{t-1}=i,Z_t=j)\nonumber\\
+				&=& \sum_i P(A_t=a_t|Z_t=j) \cdot P(A_1=a_1,\dots, A_{t-1}=a_{t-1},Z_{t-1}=i,Z_t=j)\nonumber\\
 				&=& \sum_i q_j(a_t) \cdot P(Z_t=j|Z_{t-1}=i) \cdot P(A_1=a_1, \cdots, A_{t-1}=a_{t-1}, Z_{t-1}=i)\nonumber\\
 				&=& \sum_i q_j(a_t) \cdot p(i,j) \cdot \alpha_{t-1}(i)
 				\label{eq:Forward_1}
 \end{eqnarray}
+Für t=1 gilt
+\begin{equation}
+	\alpha_1(j)=P(A_1=a_1, Z_1=j)=q_j(a_1)\cdot \pi_j
+	\label{eq:Forward_2}
+\end{equation}
+Ferner gilt
+\begin{eqnarray}
+	P(A_1=a_1, \dots,A_n=a_n)	&=&\sum P(A_1=a_1, \dots, A_n=a_n, Z_n=j) \nonumber\\
+								&=& \sum_j \alpha_n (j)
+	\label{eq:Forward_3}
+\end{eqnarray}
+Mit den Ergebnissen aus (\ref{eq:Forward_1}), (\ref{eq:Forward_2}) und (\ref{eq:Forward_3}) lässt sich die Wahrscheinlichkeit der Beobachtung \(a_1, \dots, a_n\) berechnen.
+Aufwand dazu \[\underbrace{\mathcal{O}(n\cdot|Z|)}_{\text{Tabellengröße}}\cdot\underbrace{\mathcal{O}(|Z|)}_{\text{Aufwand pro Zelle}}+\underbrace{\mathcal{O}(|Z|)}_{\text{Aufsummierung}}=\mathcal{O}(n\cdot|Z|^2)\]
+
 \begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}[node distance=1.5cm]
@@ -437,27 +467,12 @@ Mit dynamischer Programmiereung berechnen wir
 			(j)	edge [right] node {\(q_j(a_t)\)} (at);
 	\end{tikzpicture}
 	\caption{Skizze des Forward-Algorithmus}
+	\label{fig:Forward-Alg}
 \end{figure}
-
-Für t=1 gilt
-\begin{equation}
-	\alpha_1(j)=P(A_1=a_1, Z_1=j)=q_j(a_1)\cdot \pi_j
-	\label{eq:Forward_2}
-\end{equation}
-Ferner gilt
-\begin{eqnarray}
-	P(A_1=a_1, \dots,A_n=a_n)	&=&\sum P(A_1=a_1, \dots, A_n=a_n, Z_n=j) \nonumber\\
-								&=& \sum_j \alpha_n (j)
-	\label{eq:Forward_3}
-\end{eqnarray}
-Mit (\ref{eq:Forward_1}), (\ref{eq:Forward_2}), (\ref{eq:Forward_3}) lässt sich die Wahrscheinlichkeit der Beobachtung \(a_1, \dots, a_n\) berechnen.
-Aufwand dazu \(\underbrace{\mathcal{O}(n\cdot|Z|)}_{\text{Tabellengröße}}\cdot\underbrace{\mathcal{O}(|Z|)}_{\text{Aufwand pro Zelle}}+\underbrace{\mathcal{O}(|Z|)}_{\text{Aufsummierung}}=\mathcal{O}(n\cdot|Z|^2)\)
-
-
 
 \section{Backward-Algorithmus}
 Gegeben eine Beobachtung \(a_1, \dots, a_n\), was ist der wahrscheinlichste Zustand in Schritt \(t\)?
-Gesucht ist also ein \(j\) mit \[P(Z_t=j|A_1=a_1, \dots, A_n=a_n)\] maximal.
+Gesucht ist ein \(j\) mit \[P(Z_t=j|A_1=a_1, \dots, A_n=a_n)\] maximal.
 
 Ansatz:
 \begin{eqnarray*}
@@ -492,10 +507,9 @@ Ferner sei \(\beta_n(j)=1\) für alle \(j\).
 	\caption{Skizze des Backward-Algorithmuses}
 \end{figure}
 
-Die Laufzeit des Backward-Algorithmus liegt damit in 
-\begin{align*}
-    O(n\cdot{|Z|}^2).
-\end{align*}
+Die Laufzeit des Backward-Algorithmus liegt damit in
+\[\underbrace{\mathcal{O}(n\cdot|Z|^2)}_{\alpha\text{-Tabelle}} + \underbrace{\mathcal{O}(n\cdot|Z|^2)}_{\beta\text{-Tabelle}} + \underbrace{\mathcal{O}(|Z|)}_{\text{Summe}}+\underbrace{\mathcal{O}(1)}_{\text{Zugriff auf }\alpha_t(j) \text{und }\beta_t(j)}=\mathcal{O}(n\cdot|Z|^2)\]
+
 
 Die Wahrscheinlichkeit für den Zustand \(j\) im Schritt \(t\) ergibt sich aus
 \begin{align*}
@@ -503,7 +517,7 @@ Die Wahrscheinlichkeit für den Zustand \(j\) im Schritt \(t\) ergibt sich aus
     \frac{P(A_1=a_1,\ldots,A_n=a_n,Z_t=j)}{P(A_1=a_1,\ldots,A_n=a_n)}\\
 =&\frac{\alpha_t(j)\cdot\beta_t(j)}{\sum_i \alpha_n(i)}
 \end{align*}
-Aufwand dazu \(\underbrace{\mathcal{O}(n\cdot|Z|^2)}_{\alpha\text{-Tabelle}} + \underbrace{\mathcal{O}(n\cdot|Z|^2)}_{\beta\text{-Tabelle}} + \underbrace{\mathcal{O}(|Z|)}_{\text{Summe}}+\underbrace{\mathcal{O}(1)}_{\text{Zugriff auf }\alpha_t(j) \text{und }\beta_t(j)}=\mathcal{O}(n\cdot|Z|^2)\)
+
 
 \section{Posterior Decoding}
 Wenn der Viterbi-Algorithmus viele unterschiedliche Pfade mit annähernd gleicher Wahrscheinlichkeit liefert, dann lässt sich die Wahl des wahrscheinlichsten Pfades nicht gut rechtfertigen.
