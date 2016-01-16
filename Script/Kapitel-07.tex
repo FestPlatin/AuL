@@ -74,14 +74,14 @@ Aus \(Z_1\) ergibt sich die Startverteilung \[\pi_k=P(Z_1=k)\] der Markov-Kette.
 
 Da \(Z_{k+1}\) nur von \(Z_k\) abhängt, folgt:
 \begin{eqnarray*}
-    &&P(\underbrace{Z_{k+1}}_{\text{Zufallsvariable}}=\underbrace{z_{k+1}}_{\text{Zustand}}|Z_k=z_k,\dots,Z_1=z_1)\\
+	&&P(\underbrace{Z_{k+1}}_{\text{Zufallsvariable}}=\underbrace{z_{k+1}}_{\text{Zustand}}|Z_k=z_k,\dots,Z_1=z_1)\\
 	&=& P(Z_{k+1}=z_{k+1}|Z_k=z_k)\\
 	&=:& p(z_k,z_{k+1})
 \end{eqnarray*}
 Sei \(A_k\) die Zufallsvariable, die das in Schritt \(k\) ausgegebene Zeichen angibt.
 \(A_k\) hängt nur von \(Z_k\) ab:
 \[P(A_k=a|Z_k=z_k,\dots,Z_1=z_1) = P(A_k=a|Z_k=z_k) =: q_{z_k}(a)\]
-Die charakteristischen Größen eines HMM sind damit $\pi_k,\; p(z,z'),\; q_z(a)$.
+Die charakteristischen Größen eines HMM sind damit \(\pi_k,\; p(z,z'),\; q_z(a)\).
 
 Für eine Folge \(a_1,\dots,a_n\) von beobachteten Zeichen suchen wir eine Folge \(z_1,\dots,z_n\) von Zuständen, so dass
 \[P(Z_1=z_1,\dots,Z_n=z_n|A_1=a_1,\dots,A_n=a_n)\]
@@ -90,13 +90,12 @@ Da in
 \begin{eqnarray*}
     \frac{P(Z_1=z_1, \dots, Z_n=z_n,\; A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)} \\
 \end{eqnarray*}
-der Nenner unabhängig von der Lösung ist, maximieren wir den Zähler.
+der Nenner unabhängig von der Lösung ist (da er der Beobachtung entspricht), maximieren wir den Zähler.
 %\begin{eqnarray*}
 	%&&P(Z_1=z_1, \dots, Z_n=z_n | A_1=a_1, \dots A_n=a_n)\\
 	%&=& \frac{P(Z_1=z_1, \dots, Z_n=z_n) \cap P(A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)} \\
 	%&=& \frac{P(Z_1=z_1, \dots, Z_n=z_n, A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)}
 %\end{eqnarray*}
-%und der Nenner unabhängig von der Lösung ist (da er der Beobachtung entspricht), maximieren wir den Zähler.
 
 Sei
 \begin{eqnarray*}
@@ -119,17 +118,14 @@ Sei
 Der Viterbi-Algorithmus ist ein Algorithmus der dynamischen Programmierung zur Bestimmung der wahrscheinlichsten Sequenz
 von verborgenen Zuständen bei einem gegebenen Hidden Markov Model (HMM) und einer beobachteten Sequenz von Symbolen.
 Diese Zustandssequenz wird auch als Viterbi-Pfad bezeichnet.
-\begin{align*}
+\[
     t(Z,n) =
     \begin{cases}
         q_Z(a_1) \cdot \pi_Z 								& \text{für } n=1\\
-        q_Z(a_n) \cdot \max_{z'} \left(p(z',z) \cdot t(z',n-1)\right) & \text{für } n>1\\
+        q_Z(a_n) \cdot \displaystyle \max_{z'}\left(p(z',z) \cdot t(z',n-1)\right) & \text{für } n>1\\
     \end{cases}
-\end{align*}
-Die Laufzeit beträgt \(\underbrace{\mathcal{O}(|Z| \cdot n)}_{\text{Größe der
-            Tabelle}} \cdot \underbrace{\mathcal{O}(|Z|)}_{\text{Aufwand pro
-            Zelle}} = \mathcal{O}(|Z|^2 \cdot n)\)
-
+\]
+Die Laufzeit beträgt \(\underbrace{\mathcal{O}(|Z| \cdot n)}_{\text{Größe der Tabelle}} \cdot \underbrace{\mathcal{O}(|Z|)}_{\text{Aufwand pro Zelle}} = \mathcal{O}(|Z|^2 \cdot n)\)
 \begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}[node distance=1.5cm]
@@ -137,7 +133,7 @@ Die Laufzeit beträgt \(\underbrace{\mathcal{O}(|Z| \cdot n)}_{\text{Größe der
 		\node[state] (z') [left=1.5cm of z]     {z'};
 		\node[state] (e1) [above of=z']  {};
 		\node[state] (e2) [below of=z'] {};
-        \node (a) [below=.5cm of e2] {\(\underbrace{a_1\; \dots\; a_{k-1}}_{t(z',k-1)}\)};
+		\node (a) [below=.5cm of e2] {\(\underbrace{a_1\; \dots\; a_{k-1}}_{t(z',k-1)}\)};
 		\node[emission] (ak) [below of=z] {$a_k$};
 		\path[->] 
 			(e1) edge (z)
@@ -145,13 +141,13 @@ Die Laufzeit beträgt \(\underbrace{\mathcal{O}(|Z| \cdot n)}_{\text{Größe der
 			(z') edge [above] node {P(z',z)} (z)
 			(z)	 edge [right] node {\(q_z(a_k)\)} (ak);
 	\end{tikzpicture}
-    \caption{Verdeutlichung des Viterbi-Algorithmusses.}\label{fig:viterbi}
+    \caption{Verdeutlichung des Viterbi-Algorithmusses.}
+    \label{fig:viterbi}
 \end{figure}
 Um die numerische Stabilität des Verfahrens zu erhöhen, ist es Vorteilhaft, mit den Logarithmen zu rechnen.
 
 \subsubsection{Beispiel}
-Gegeben sei das folgende HMM-Model (\cref{fig:hmmbsp}) mit der Folge ``k z z k k z k k k k k k''
-(mit k=Kopf, z=Zahl).
+Gegeben sei das HMM-Model in Abbildung \ref{fig:hmmbsp} mit der Folge ``k z z k k z k k k k k k'' (mit k=Kopf, z=Zahl).
 Berechnen Sie die wahrscheinlichste Zustandsfolge die diese Folge erzeugt hat
 \begin{figure}[htbp]
 	\centering
@@ -175,7 +171,8 @@ Berechnen Sie die wahrscheinlichste Zustandsfolge die diese Folge erzeugt hat
 				edge [right] node {0,1} (z)
 				edge [right] node {0,9} (k);
 	\end{tikzpicture}
-    \caption{HMM für Beispiel X.}\label{fig:hmmbsp}
+    \caption{HMM für Beispiel X.}
+    \label{fig:hmmbsp}
 \end{figure}
 
 \begin{center}
@@ -318,16 +315,14 @@ Berechnen Sie die wahrscheinlichste Zustandsfolge die diese Folge erzeugt hat
 \end{center}
 Damit ergibt sich die Zustandsfolge \(z_{0} \rightarrow z_{0} \rightarrow z_{0} \rightarrow z_{0} \rightarrow z_{1} \rightarrow z_{1}\rightarrow z_{1} \rightarrow z_{1}\rightarrow z_{1}\rightarrow z_{1}\)
 
-Ausgehend vom maximum des letzten Zustandes ist der Vorgänger der Zustand, aus
-dem das Maximum hervorging.
+Ausgehend vom maximum des letzten Zustandes ist der Vorgänger der Zustand, aus dem das Maximum hervorging.
 
 \section{Parameterschätzung}
 Die Parameter eines HMM sind Startverteilung, Übergangs- und Emissionswahrscheinlichkeiten.
 Gegeben sei eine Menge von Trainingssequenzen.
 
 \subsection{Überwachtes Lernen}
-Wenn für alle Trainingssequenzen die Zustandsfolge bekannt ist, lassen sich
-ML-Schätzer (Maximum-Likelihood) für alle Parameter angeben.
+Wenn für alle Trainingssequenzen die Zustandsfolge bekannt ist, lassen sich ML-Schät"-zer (Maximum-Likelihood) für alle Parameter angeben.
 Entsprechende Trainingssequenzen lassen sich häufig erzeugen, z.B.
 \begin{itemize}
 	\item Nachrichtenübertragung: Nachricht mehrfach senden und empfangen.
@@ -335,19 +330,16 @@ Entsprechende Trainingssequenzen lassen sich häufig erzeugen, z.B.
 \end{itemize}
 Seien \(z,z\)' Zustände des HMM und \(h(z,z')\) die Häufigkeit des Übergangs von \(z\) nach \(z'\) in den Trainingssequenzen.
 Sei ferner \(h_0(z)\) die Häufigkeit von \(z\) als Startzustand.
-Da der Übergang von \(z\) nach \(z\)' durch eine Bernoulli-verteilte
-Zufallsvariable beschrieben werden kann, sind
+Da der Übergang von \(z\) nach \(z\)' durch eine Bernoulli-verteilte Zufallsvariable beschrieben werden kann, sind
 \[
-    \hat{p}(z,z')=\frac{h(z,z')}{\sum\limits_{z''} h(z,z'')} \qquad
-    \hat\pi_z=\frac{h_0(z)}{\|Z\|}
+	\hat{p}(z,z')=\frac{h(z,z')}{\sum\limits_{z''} h(z,z'')} \qquad
+	\hat\pi_z=\frac{h_0(z)}{\|Z\|}
 \]
-(Zählen von allen Übergänge von \(z\) nach \(z'\) und teilen durch alle
-Übergänge.)\\
 ML-Schätzer für \(p(z,z')\) bzw \(\pi_z\).
 Entsprechend ist
 \[
-    \hat{q}_z(a)=\frac{h_z(a)}{\sum\limits_{a'} h_z(a')}\]
-
+	\hat{q}_z(a)=\frac{h_z(a)}{\sum\limits_{a'} h_z(a')}
+\]
 ein ML-Schätzer für \(q_z(a)\), wobei \(h_z(a)\) die Häufigkeit der Emission des Zeichens \(a\) im Zustand \(z\) in den Trainingssequenzen ist.
 Wenn im HMM gilt: \(\sum_a q_z(a)=1\), ist \(\sum_{a'} h_z(a')\) die Summe der Längen aller Trainingssequenzen.
 
@@ -357,28 +349,23 @@ Wenn die Zustandsfolge für die Trainingssequenzen nicht bekannt ist, können di
 
 Idee:
 \begin{itemize}
-    \item Mit zufälligen Parametern beginnen oder alle Wahrscheinlichkeiten
-        gleich setzen.
-	\item Aus den Trainingssequenzen mit dem Viterbi-Algorithmus die
-        Zustandsfolge rekonstruieren, damit die Schätzwerte für \(h_0(z),\;
-            h(z,z'),\; h_z(a)\) berechnen.
-	\item Mit den oben beschriebenen Verfahren Schätzer für die Parameter des
-        HMM berechnen.
+	\item Mit zufälligen Parametern beginnen oder alle Wahrscheinlichkeiten gleich setzen.
+	\item Aus den Trainingssequenzen mit dem Viterbi-Algorithmus die Zustandsfolge rekonstruieren, damit die Schätzwerte für \(h_0(z),\; h(z,z'),\; h_z(a)\) berechnen.
+	\item Mit den oben beschriebenen Verfahren Schätzer für die Parameter des HMM berechnen.
 \end{itemize}
 Die letzten beiden Schritte werden wiederholt, bis ein Terminierungskriterium erreicht ist.
 \begin{algorithm}
-\begin{algorithmic}[1]
-    \State {Parameter \(p(z,z'),\; \pi_z,\; q_z(a)\) zufällig oder durch
-        überwachtes Lernen initialisieren.}
-	\Repeat%
-	\State{Wende den Viterbi-Algorithmus auf die Trainingssequenzen an}
-	\State{Berechne \(\hat{p}(z,z'),\; \hat\pi_z,\; \hat{q_z}(a)\)}
-	\Until{keine Änderung an \(\hat{p}(z,z'),\; \hat\pi_z,\; \hat{q_z}(a)\).}
-\end{algorithmic}
-\caption{Unüberwachtes Lernen für HMM.}
-\label{alg:hmmus}
+	\begin{algorithmic}[1]
+		\State {Parameter \(p(z,z'),\; \pi_z,\; q_z(a)\) zufällig oder durch überwachtes Lernen initialisieren.}
+		\Repeat
+		\State{Wende den Viterbi-Algorithmus auf die Trainingssequenzen an}
+		\State{Berechne \(\hat{p}(z,z'),\; \hat\pi_z,\; \hat{q_z}(a)\)}
+		\Until{keine Änderung an \(\hat{p}(z,z'),\; \hat\pi_z,\; \hat{q_z}(a)\).}
+	\end{algorithmic}
+	\caption{Unüberwachtes Lernen für HMM.}
+	\label{alg:hmmus}
 \end{algorithm}
-\cref{alg:hmmus} terminiert, weil schließlich der Viterbi-Algorithmus stets die gleiche Folge liefert (ohne Beweis) und die geschätzten Parameter sich daher nicht mehr ändern.
+Der Algorithmus \ref{alg:hmmus} terminiert, weil schließlich der Viterbi-Algorithmus stets die gleiche Folge liefert (ohne Beweis) und die geschätzten Parameter sich daher nicht mehr ändern.
 Das Viterbi-Training liefert jedoch keinen ML-Schätzer für die unbekannten
 Parameter. Ein besserer Algorithmus ist der Baum-Welch-Algorithmus (auch
 Expectation-Maximization-Algorithmus genannt).
