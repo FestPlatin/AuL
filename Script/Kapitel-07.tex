@@ -1,4 +1,4 @@
-\chapter{Markov-Ketten, Hidden Markov Modelle}
+\section{Markov-Ketten, Hidden Markov Modelle}
 Eine Markov-Kette ist ein stochastischer Prozess, der durch Zustände und Über-gangswahrscheinlichkeiten beschrieben wird.
 \begin{figure}[htbp]
 	\centering
@@ -23,7 +23,7 @@ Damit lassen sich modellieren:
 \end{itemize}
 
 
-\section{Hidden Markov Model (HMM)}
+\subsection{Hidden Markov Model (HMM)}
 \begin{shaded}
   \noindent
   \textbf{Def.:} Ein HHM ist eine Markov-Kette, die in jeden Zustand z ein Zeichen a ausgibt mit der Wahrscheinlichkeit \(q_z(a)\).
@@ -64,23 +64,24 @@ Mit HMM können modelliert werden z.B.:
 		Ausgegebenen Zeichen: Phoneme, die das System erkannt hat oder das vom System erkannte Wort.
 \end{itemize}
 
-\subsection{Mathematische Behandlung}
+\subsubsection{Mathematische Behandlung}
 Sei \(Z_k\) eine Zufallsvariable, die den Zustand des HMM im Schritt \(k\) angibt.
 Aus \(Z_1\) ergibt sich die Startverteilung \[\pi_k=P(Z_1=k)\] der Markov-Kette.
 Da \(Z_{k+1}\) nur von \(Z_k\) abhängt, folgt:
 \begin{eqnarray*}
-	&&P(\underbrace{Z_{k+1}}_{\text{Zufallsvariable}}=\underbrace{Z_{i_{k+1}}}_{\text{Zustand}} | Z_k =z_{i_k}, \ldots, Z_1=z_{i_1})\\
-	&=& P(Z_{k+1} = z_{i_{k+1}}|Z_k=z_{i_k})\\
+	&&P(\underbrace{Z_{k+1}}_{\text{Zufallsvariable}}=\underbrace{Z_{i_{k+1}}}_{\text{Zustand}}
+    \mid Z_k =z_{i_k}, \ldots, Z_1=z_{i_1})\\
+	&=& P(Z_{k+1} = z_{i_{k+1}}\mid Z_k=z_{i_k})\\
 	&=:& p(Z_{i_k},Z_{i_{k+1}})
 \end{eqnarray*}
 Sei \(A_k\) die Zufallsvariable, die das in Schritt \(k\) ausgegebene Zeichen angibt.
 \(A_k\) hängt nur von \(Z_k\) ab:
-\[P(A_k=a|Z_k=z_{i_k}, \ldots, Z_1=z_1) = P(A_k=a|Z_k=z_{i_k}) := q_{z_{i_k}}(a)\]
+\[P(A_k=a\mid Z_k=z_{i_k}, \ldots, Z_1=z_1) = P(A_k=a\mid Z_k=z_{i_k}) := q_{z_{i_k}}(a)\]
 Die charakteristischen Größen eines HMM sind damit \(\pi_k,\; p(z,z'),\; q_z(a)\).
 
 \subsubsection{Rekonstruktion der Zustandsfolge}
 Für eine Folge \(a_1,\dots,a_n\) von beobachteten Zeichen suchen wir eine Folge \(z_{i_1}, \ldots, z_{i_n}\) von Zuständen, so dass
-\[P(Z_1=z_{i_1}, \ldots, Z_n=z_{i_n} | A_1=a_1, \ldots, A_n=a_n)\]
+\[P(Z_1=z_{i_1}, \ldots, Z_n=z_{i_n} \mid  A_1=a_1, \ldots, A_n=a_n)\]
 maximal ist.
 Da in
 \begin{eqnarray*}
@@ -88,7 +89,7 @@ Da in
 \end{eqnarray*}
 der Nenner unabhängig von der Lösung ist (da er der Beobachtung entspricht), maximieren wir den Zähler.
 %\begin{eqnarray*}
-	%&&P(Z_1=z_1, \dots, Z_n=z_n | A_1=a_1, \dots A_n=a_n)\\
+	%&&P(Z_1=z_1, \dots, Z_n=z_n \mid  A_1=a_1, \dots A_n=a_n)\\
 	%&=& \frac{P(Z_1=z_1, \dots, Z_n=z_n) \cap P(A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)} \\
 	%&=& \frac{P(Z_1=z_1, \dots, Z_n=z_n, A_1 = a_1, \dots, A_n=a_n)}{P(A_1=a_1, \dots, A_n=a_n)}
 %\end{eqnarray*}
@@ -96,21 +97,21 @@ der Nenner unabhängig von der Lösung ist (da er der Beobachtung entspricht), m
 Sei
 \begin{eqnarray*}
 	t(z_{i_n},n) &=& P(Z_1=z_{i_1}, \dots, Z_n=z_{i_n}, A_1=a_1, \dots, A_n=a_n)\\
-		&=& P(A_n=a_n|Z_1=z_{i_1}, \dots, Z_n=z_{i_n}, A_1=a_1, \dots, A_{n-1} = a_{n-1}) \cdot \\
+		&=& P(A_n=a_n\mid Z_1=z_{i_1}, \dots, Z_n=z_{i_n}, A_1=a_1, \dots, A_{n-1} = a_{n-1}) \cdot \\
 		&& P(Z_1=z_{i_1}, \dots, Z_n=z_{i_n}, A_1=a_1, \dots, A_{n-1}=a_{n-1})\\
-		&=& P(A_n=a_n|Z_n=z_{i_n}) \cdot \\
+		&=& P(A_n=a_n\mid Z_n=z_{i_n}) \cdot \\
 		&& P(Z_1=z_{i_1}, \dots, Z_n=z_{i_n}, A_1=a_1, \dots, A_{n-1}=a_{n-1})\\
 		&=& q_{z_{i_n}}(a_n) \cdot\\
-		&& P(Z_n=z_{i_n}|Z_1=z_{i_1}, \dots, Z_{n-1}=z_{i_{n-1}}, A_1=a_1, \dots, A_{n-1}=a_{n-1}) \cdot\\
+		&& P(Z_n=z_{i_n}\mid Z_1=z_{i_1}, \dots, Z_{n-1}=z_{i_{n-1}}, A_1=a_1, \dots, A_{n-1}=a_{n-1}) \cdot\\
 		&& P(Z_1=z_{i_1},\dots, Z_{n-1}=z_{i_{n-1}}, A_1=a_1, \dots, A_{n-1}=a_{n-1})\\
-		&=& q_{z_{i_n}}(a_n) \cdot P(Z_n=z_{i_n}|Z_{n-1}=z_{i_{n-1}}) \cdot \\
+		&=& q_{z_{i_n}}(a_n) \cdot P(Z_n=z_{i_n}\mid Z_{n-1}=z_{i_{n-1}}) \cdot \\
 		&& P(Z_1=z_{i_1}, \dots, Z_{n-1}=z_{i_{n-1}}, A_1=a_1, \dots, A_{n-1}=a_{n-1})\\
 		&=& q_{z_{i_n}}(a_n) \cdot p(z_{i_{n-1}},z_{i_n}) \cdot t(z_{i_{n-1}},n-1)
 \end{eqnarray*}
 
 
 
-\section{Viterbi-Algorithmus}
+\subsection{Viterbi-Algorithmus}
 Der Viterbi-Algorithmus ist ein Algorithmus der dynamischen Programmierung zur Bestimmung der wahrscheinlichsten Sequenz
 von verborgenen Zuständen bei einem gegebenen Hidden Markov Model (HMM) und einer beobachteten Sequenz von Symbolen.
 Diese Zustandssequenz wird auch als Viterbi-Pfad bezeichnet.
@@ -314,11 +315,11 @@ Damit ergibt sich die Zustandsfolge \(z_{0} \rightarrow z_{0} \rightarrow z_{0} 
 
 Ausgehend vom maximum des letzten Zustandes ist der Vorgänger der Zustand, aus dem das Maximum hervorging.
 
-\section{Parameterschätzung}
+\subsection{Parameterschätzung}
 Die Parameter eines HMM sind Startverteilung, Übergangs- und Emissionswahrscheinlichkeiten.
 Gegeben sei eine Menge von Trainingssequenzen.
 
-\subsection{Überwachtes Lernen}
+\subsubsection{Überwachtes Lernen}
 Wenn für alle Trainingssequenzen die Zustandsfolge bekannt ist, lassen sich ML-Schät"-zer (Maximum-Likelihood) für alle Parameter angeben.
 Entsprechende Trainingssequenzen lassen sich häufig erzeugen, z.B.
 \begin{itemize}
@@ -340,7 +341,7 @@ Entsprechend ist
 ein ML-Schätzer für \(q_z(a)\), wobei \(h_z(a)\) die Häufigkeit der Emission des Zeichens \(a\) im Zustand \(z\) in den Trainingssequenzen ist.
 Wenn im HMM gilt: \(\sum_a q_z(a)=1\), ist \(\sum_{a'} h_z(a')\) die Summe der Längen aller Trainingssequenzen.
 
-\subsection{Unüberwachtes Lernen}
+\subsubsection{Unüberwachtes Lernen}
 Wenn die Zustandsfolge für die Trainingssequenzen nicht bekannt ist, können die unbekannten Parameter durch ein iteratives Verfahren geschätzt werden.
 Idee dazu:
 \begin{itemize}
@@ -366,10 +367,10 @@ Der Algorithmus \ref{alg:hmmus} terminiert, weil schließlich der Viterbi-Algori
 Das Viterbi-Training liefert jedoch keinen ML-Schätzer für die unbekannten Parameter.
 Ein besserer Algorithmus ist der Baum-Welch-Algorithmus (auch Ex\-pect\-ation-Maximization-Algorithmus genannt).
 Dieser findet ein lokales Maximum der Likelihood-Funktion:
-	\[P(A_1=a_1, \dots, A_n=a_n|\Theta)\]
+	\[P(A_1=a_1, \dots, A_n=a_n\mid Theta)\]
 wobei \(a_1, \dots, a_n\) die beobachtete Ausgabe und \(\Theta\) die Menge der zu schätzenden Parameter des HMM ist.
 
-\section{Forward-Algorithmus}
+\subsection{Forward-Algorithmus}
 \begin{shaded}
 	\noindent
 	\textbf{Wdh. Disjunkte Zerlegung:}
@@ -427,10 +428,10 @@ Mit dynamischer Programmiereung erhalten wir ein effizenters Verfahren dazu sei:
 \begin{eqnarray}
 	\alpha_t(j) &=& P(A_1=a_1, \dots, A_t=a_t,Z_t=j)\nonumber\\
 				&=& \sum_i P(A_1=a_1, \dots, A_t=a_t, Z_{t-1}=i, Z_t=j)		\nonumber\\
-				&=& \sum_i P(A_t=a_t|A_1=a_1, \dots, _{t-1}=a_{t-1}, Z_{t-1}=i,Z_t=j) \nonumber\\
+				&=& \sum_i P(A_t=a_t\mid A_1=a_1, \dots, _{t-1}=a_{t-1}, Z_{t-1}=i,Z_t=j) \nonumber\\
 				&& \cdot P(A_1=a_1, \dots, A_{t-1}=a_{t-1}, Z_{t-1}=i, Z_t=j)\nonumber\\
-				&=& \sum_i P(A_t=a_t|Z_t=j) \cdot P(A_1=a_1,\dots, A_{t-1}=a_{t-1},Z_{t-1}=i,Z_t=j)\nonumber\\
-				&=& \sum_i q_j(a_t) \cdot P(Z_t=j|Z_{t-1}=i) \cdot P(A_1=a_1, \cdots, A_{t-1}=a_{t-1}, Z_{t-1}=i)\nonumber\\
+				&=& \sum_i P(A_t=a_t\mid Z_t=j) \cdot P(A_1=a_1,\dots, A_{t-1}=a_{t-1},Z_{t-1}=i,Z_t=j)\nonumber\\
+				&=& \sum_i q_j(a_t) \cdot P(Z_t=j\mid Z_{t-1}=i) \cdot P(A_1=a_1, \cdots, A_{t-1}=a_{t-1}, Z_{t-1}=i)\nonumber\\
 				&=& \sum_i q_j(a_t) \cdot p(i,j) \cdot \alpha_{t-1}(i)
 				\label{eq:Forward_1}
 \end{eqnarray}
@@ -470,16 +471,16 @@ Aufwand dazu \[\underbrace{\mathcal{O}(n\cdot|Z|)}_{\text{Tabellengröße}}\cdot
 	\label{fig:Forward-Alg}
 \end{figure}
 
-\section{Backward-Algorithmus}
+\subsection{Backward-Algorithmus}
 Gegeben eine Beobachtung \(a_1, \dots, a_n\), was ist der wahrscheinlichste Zustand in Schritt \(t\)?
-Gesucht ist ein \(j\) mit \[P(Z_t=j|A_1=a_1, \dots, A_n=a_n)\] maximal.
+Gesucht ist ein \(j\) mit \[P(Z_t=j\mid A_1=a_1, \dots, A_n=a_n)\] maximal.
 
 Ansatz:
 \begin{eqnarray*}
 	&& P(A_1=a_1, \dots, A_n=a_n,Z_t=j)\\
-	&=& P(A_{t+1}=a_{t+1}, \dots, A_n=a_n|A_1=a_1, \dots, A_t=a_t, Z_t=j)\\
+	&=& P(A_{t+1}=a_{t+1}, \dots, A_n=a_n\mid A_1=a_1, \dots, A_t=a_t, Z_t=j)\\
 	&&\cdot P(A_1=a_1, \dots, A_t=a_t,Z_t=j)\\
-	&=& P(A_{t+1}=a_{t+1}, \dots, A_n=a_n|Z_t=j)\cdot P(A_1=a_1,\dots, A_t=a_t, Z_t=j)\\
+	&=& P(A_{t+1}=a_{t+1}, \dots, A_n=a_n\mid Z_t=j)\cdot P(A_1=a_1,\dots, A_t=a_t, Z_t=j)\\
 	&=& \beta_t(j)\cdot\alpha_t(j)
 \end{eqnarray*}
 Ferner sei \(\beta_n(j)=1\) für alle \(j\).
@@ -513,17 +514,17 @@ Die Laufzeit des Backward-Algorithmus liegt damit in
 
 Die Wahrscheinlichkeit für den Zustand \(j\) im Schritt \(t\) ergibt sich aus
 \begin{align*}
-    P(Z_t=j|A_1=a_1, \dots, A_n=a_n) =&
+    P(Z_t=j\mid A_1=a_1, \dots, A_n=a_n) =&
     \frac{P(A_1=a_1,\ldots,A_n=a_n,Z_t=j)}{P(A_1=a_1,\ldots,A_n=a_n)}\\
 =&\frac{\alpha_t(j)\cdot\beta_t(j)}{\sum_i \alpha_n(i)}
 \end{align*}
 
 
-\section{Posterior Decoding}
+\subsection{Posterior Decoding}
 Wenn der Viterbi-Algorithmus viele unterschiedliche Pfade mit annähernd gleicher Wahrscheinlichkeit liefert, dann lässt sich die Wahl des wahrscheinlichsten Pfades nicht gut rechtfertigen.
 Alternativ können wir mit dem Backward-Algorithmus die Folge der in jedem
 Zeitpunkt $t$ wahrscheinlichsten Zustände
-\[ \hat z_{t} = \arg_{j}\max P(Z_{t} = j | A_{1} = a_{1}, \ldots, A_{n} = a_{n}) \]
+\[ \hat z_{t} = \arg_{j}\max P(Z_{t} = j \mid  A_{1} = a_{1}, \ldots, A_{n} = a_{n}) \]
 bestimmen.
 Diese muss jedoch keine zuverlässige Folge sein.
 
@@ -550,8 +551,8 @@ Lösung:
         Baum-Welch-Algorithmus)
     \item Backward-Algorithmus
         \begin{align*}
-            P(Z_t \in \{a_c,c_c,g_c,t_c\} | A_1=a_1,\ldots,A_n=a_n)=\\
-            \sum\limits_{z\in a_c,c_c,g_c,t_c} P(Z_t=z|A_1=a_1,\ldots,A_n=a_n)
+            P(Z_t \in \{a_c,c_c,g_c,t_c\} \mid  A_1=a_1,\ldots,A_n=a_n)=\\
+            \sum\limits_{z\in a_c,c_c,g_c,t_c} P(Z_t=z\mid A_1=a_1,\ldots,A_n=a_n)
         \end{align*}
 \end{itemize}
 Wenn das Ergebnis größer als $\frac{1}{2}$ ist, ist es eine codierende Sequenz,
@@ -572,18 +573,265 @@ Lösung:
 Die Trainigssequenz muss 4-fach solang sein.
 \end{shaded}
 
-\section{Baum-Welch-Algorithmus}
+\subsection{Baum-Welch-Algorithmus}
 Der Baum-Welch-Algorithmus wird benutzt, um die unbekannten Parameter eines Hidden Markov Models (HMM) zu finden.
 Er nutzt dabei den Forward-Backward-Algorithmus zur Berechnung von Zwischenergebnissen, ist aber nicht mit diesem identisch.
 Der Baum-Welch-Algorithmus ist ein erwartungsmaximierender Algorithmus.
 
 Idee:
 \begin{enumerate}
-	\item HMM zufällig initialisieren
-	\item Mit dem Backward-Algorithmus die Wahrscheinlickeit \[P(Z_{t} = j \| A_{1} = a_{1}, \ldots, A_{n} = a_{n})\]berechnen.
-			Auf ähnliche Weise lassen sich \[P(Z_{t} = i, Z_{t+1} = j \| A_{1} = a_{1}, \ldots, A_{n} = a_{n})\] berechnen.
-			Damit lassen sich Erwartungswerte berechen für die Häufigkeit eines Zustandes, eines Zustandsübergangs oder einer Emission.
-			Damit lassen sich Schätzer berechnen für die Parameter des HMM.
-			Damit werden die Parameter des HMM geändert.
-	\item Mehrfach iterieren, bis sich an den Parametern nichts mehr ändert, beste Lösung ausgeben (größte Wahrscheinlichkeit für Ausgabesequenz)
+    \item HMM zufällig initialisieren
+    \item Mit dem Backward-Algorithmus die Wahrscheinlickeit \[P(Z_{t} = j \mid  A_{1} = a_{1}, \ldots, A_{n} = a_{n})\]berechnen.
+        Auf ähnliche Weise lassen sich \[P(Z_{t} = i, Z_{t+1} = j \mid A_{1} = a_{1}, \ldots, A_{n} = a_{n})\] berechnen.
+        Damit lassen sich Erwartungswerte berechen für die Häufigkeit eines Zustandes, eines Zustandsübergangs oder einer Emission.
+        Damit lassen sich Schätzer berechnen für die Parameter des HMM.
+        Damit werden die Parameter des HMM geändert.
+    \item Mehrfach iterieren, bis sich an den Parametern nichts mehr ändert, beste Lösung ausgeben (größte Wahrscheinlichkeit für Ausgabesequenz)
 \end{enumerate}
+
+\section{Lineare Regression}
+\label{sec:lineare_regression}
+Der Korrelationskoeffizent ist ein Maß für lineare Abhängigkeit zweier
+Zufallsvariablen.
+\begin{align*}
+    \varrho = \frac{Cov(x,y)}{\sqrt{Var X Var Y}}
+\end{align*}
+
+Wir wollen eine abhängige Größe $Y$ als lineare Funktion in den Variablen
+$f_1,\ldots, f_n$ (Features) darstellen.
+\begin{align*}
+    y=w_0+\sum\limits_{i=1}^n w_i f_i \qquad w\cdots \text{Gewichtsvektor}
+\end{align*}
+Mit $f_0=1$ gilt:
+\begin{align*}
+    y=\sum\limits_{i=0}^n w_i\cdot f_i= w \cdot f
+\end{align*}
+Für Trainingsdaten $y^{(i)}, f^{(i)}$ bestimmen wir$w$ so, dass der mittlere
+quadratische Fehler
+\begin{align*}
+    \sum\limits_i {(w\cdot f^{(i)}-y^{(i)})}^2
+\end{align*}
+minimiert wird. Eine exakte Lösung ist möglich.
+
+\section{Logistische Regression}
+\label{sub:logistische_regression}
+
+Für eine binäre Zielgröße $y$ wollen wir $P(Y=true\mid f)$ bestimmen. Da $w\cdot f$
+jedoch beliebige Werte annehmen kann, betrachten wir den Quotienten (Odds)
+\begin{align*}
+    \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)}
+\end{align*}
+Dieser nimmt Werte $\geq 0$ an. Ansatz daher:
+\begin{align}
+    \ln \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)} = w\cdot f. \tag{1}\label{eq:one}
+\end{align}
+Damit folgt:
+\begin{align*}
+    \ln \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)} &= w\cdot f\\
+    \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)} &= e^{w\cdot f}\\
+    P(Y=true\mid f) &=e^{w\cdot f}\cdot (1-P(y=true\mid f))\\
+    P(Y=true\mid f) &=e^{w\cdot f} - e^{w\cdot f}P(y=true\mid f)\\
+    P(Y=true\mid f) + e^{w\cdot f}P(y=true\mid f)&=e^{w\cdot f} \\
+    P(Y=true\mid f)\cdot (1+ e^{w\cdot f}) &=e^{w\cdot f} \\
+    P(Y=true\mid f) &=\frac{e^{w\cdot f}}{1+ e^{w\cdot f}} \\
+    P(Y=true\mid f) &=\frac{1}{1+ e^{-w\cdot f}} \tag{2}\label{eq:two}
+\end{align*}
+Die Funktion
+\begin{align*}
+x\mapsto \frac{1}{1+e^{-x}}
+\end{align*}
+heißt logistische Funktion.
+
+Zur Klassifikation einer Beobachtung $f$ verwenden wir den Ansatz
+\begin{align*}
+    P(Y=true \mid f)> P(Y=false \mid f)
+\end{align*}
+und damit
+\begin{align*}
+    \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)} > 1
+\end{align*}
+Mit \cref{eq:one} erhalten wir daraus
+\begin{align*}
+    w\cdot f>0
+\end{align*}
+\paragraph{Geometrische Interpretation:}
+\label{par:geometrische_interpretation_}
+
+$w\cdot f=0$ ist die Gleichung einer Hyperebene.
+
+Zum lernen der Gewichte verwenden wir einen ML-Ansatz
+\begin{align*}
+    \hat w & = \arg\max_w \prod\limits_i P(Y=y^{(i)}\mid f^{(i)})\\
+    \hat w & = \arg\max_w \sum\limits_i \log P(Y=y^{(i)}\mid f^{(i)})\\
+    \hat w & = \arg\max_w \left(\sum\limits_i y^{(i)}\log P(Y=1\mid
+        f^{(i)}) + \sum\limits_i (1-y^{(i)})\log P(Y=0\mid f^{(i)})\right)\\
+    \hat w & = \arg\max_w \left(\sum\limits_i y^{(i)} \log
+    \left(\frac{1}{1+e^{-wf}}\right)+
+    \sum\limits_i (1-y^{(i)}) \log \left(\frac{e^{-wf}}{1+e^{-wf}}\right)\right)
+\end{align*}
+Um diese Gleichung zu lösen werden numerische Verfahren (konvexe Optimierung)
+verwendet.
+
+\section{Multinomiale logistische Regression}
+\label{sec:multinomiale_logistische_regression}
+
+Wir verallgemeinern die logistische Regression auf eine Menge von Klassen $C$.
+Mit dem Spezialfall $C={true,false}$ haben wir ermittelt
+\begin{align*}
+    P(y=true\mid
+    x)&=\frac{1}{1+e^{-wf}}=\frac{e^{wf}}{1+e^{wf}} &=\frac{1}{z}e^{wf}\\
+    P(y=false\mid
+    x)&=\frac{1}{1+e^{wf}} &=\frac{1}{z}e^{0}\\
+\end{align*}
+Mit $w_{true} = w,\; w_{false}=0$ lässt sich dies schreiben als
+\begin{align*}
+    P(Y=true\mid x)=\frac{1}{z}e^{w_{true}f},\; P(Y=false\mid
+    x)=\frac{1}{z}e^{w_{false}f}.
+\end{align*}
+Ferner ist
+\begin{align*}
+    z=e^{w_{true}f}+e^{f_{false}f}
+\end{align*}
+ein Normierungsfaktor.
+Ansatz für $c\in C$ daher
+\begin{align*}
+    P(c\mid x)=\frac{1}{z}e^{w_cf} \qquad \text{mit } z=\sum\limits_{c\in
+        C}e^{w_cf}
+\end{align*}
+Zur Klassifikation verwenden wir
+\begin{align*}
+    \hat c =\argmax_{c\in C}(P(c\mid x))
+\end{align*}
+
+\subsubsection{Softmax-Funktion}
+\label{ssub:softmax_funktion}
+
+Die Softmax-Funktion ist
+\begin{align*}
+    \softmax(c,C)= \frac{e^{x_c}}{\sum\limits_{c\in C}e^{x_c}}
+\end{align*}
+\paragraph{Es gilt:}
+\label{par:es_gilt_}
+$0 < \softmax < 1$
+
+Für $x_c \ll \max\{x_c\mid c\in C\}$ gilt $\softmax \approx 0$.
+
+Für $x_c \ll x_{c'},$ für $c' \neq c$ ist $\softmax \approx 1$.
+
+Für Werte $x_c$, die nicht zu dicht zusammen liegen gilt
+\begin{align*}
+\softmax(c,C)
+\approx \begin{cases}1,& \text{ für }c=\argmax\{x_c\mid c\in C\}\\
+0, & \text{ sonst }\end{cases}
+\end{align*}
+Die softmax Funktion ist differenzierbar.
+
+Die Klassifikationswahrscheinlichkeiten lassen sich damit schreiben als
+\begin{align*}
+    P(c\mid x)=\softmax(c,\{w_c\cdot f \mid c\in C\})
+    \tag{*}\label{eq:softmax}
+\end{align*}
+
+\begin{shaded}
+\paragraph{Übung}
+\label{par:ubungsm}
+\begin{enumerate}
+    \item Zeigen Sie, dass softmax eine Verallgemeinerung der logistischen
+        Funktion ist.
+    \begin{align*}
+        \logistic(x)=\frac{1}{1+e^{-x}}=\frac{e^x}{1+e^x}=\frac{e^x}{e^x+e^0}=\frac{e^x}{\sum\limits_C
+        e^{x_c}}
+    \end{align*}
+    \item Zeigen Sie, dass für jedes $K$ gilt: $\softmax(c,\{x_c\mid c\in
+        C\})=\softmax(c,\{x_c+K\mid c\in C\})$.
+        \begin{align*}
+            \softmax(c,\{x_c\mid c\in C\}) &= \frac{e^{x_c+K}}{\sum\limits_{c\in
+                    C}e^{x_c+K}} = \frac{e^{x_c}\cdot e^K}{\sum\limits_{c\in
+                    C}e^{x_c}\cdot e^K}=\frac{e^{x_c}}{\sum\limits_{c\in
+                    C}e^{x_c}}\\ 
+            &= \softmax(c,\{x_c+K\mid c\in C\}) \tag{u2}\label{eq:u2}
+        \end{align*}
+\end{enumerate}
+\end{shaded}
+Wegen \cref{eq:u2} können wir in \cref{eq:softmax} daher ein Gewicht auf 0
+setzen $w_{c'}=w_c-w_{c^*}$ für ein beliebiges $c^*\in C$. Damit sind nur noch
+$|C|-1$ Gewichte zu lernen. Damit
+\begin{align*}
+    P(c\mid x)=\frac{e^{w_{c'}}f}{1+\sum\limits_{c\neq c^*}e^{x_c}f}.
+\end{align*}
+
+\begin{shaded}
+\paragraph{Beispiel}
+\label{par:beispielsw}
+Erkennen von Objekten
+
+Es sollen Bilder von Nägeln, Schrauben und Muttern korrekt klassifiziert werden.
+
+Features:
+\begin{align*}
+    f_1(x)&=\begin{cases}1, & \text{ wenn in der Bildmitte ein helles Pixel }\\
+        0, & \text{sonst} \end{cases}\\
+    f_2(x)&=\frac{\text{Bildbreite}}{\text{Bildhöhe}}\\
+    f_3(x)&=\text{Anzahl an Kanten}
+\end{align*}
+3 Gewichte für die 3 Features lernen und mit multinomialer Regression
+klassifizieren.
+\end{shaded}
+
+\paragraph{Interpretation der logistischen Regression} als Maximum-Entropy-Model
+\label{par:interpretation_der_logistischen_regression}
+
+Bereits bekant: Entropie ist ein Maß für den Informationsgehalt, aber auch der
+Unsicherheit.
+
+Max-Entropie-Prinzip: Unter mehreren möglichen Verteilungen wählen wir jene mit
+maximaler Entropie.
+
+\begin{shaded}
+\paragraph{Beispiel}
+\label{par:beispielme}
+Wir wissen, dass eine Zufallsvariable $X$ die Werte 1,2,3,4 annimmt. Ein
+MaxEnt-Modell dazu ist die Gleichverteilung auf \{1,2,3,4\}. Wenn nun
+zusätzlich bekannt ist, dass $P(X=1)=\frac{1}{2}$, erhalten wir als
+MaxEnt-Modell \begin{tabular}[t]{cccc}
+    1 & 2 & 3 & 4 \\\hline
+    $\frac{1}{2}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$
+\end{tabular}.
+Sei ferner $P(X=3 \lor X=4)=\frac{1}{4}$ bekannt:
+\begin{tabular}[t]{cccc}
+    1 & 2 & 3 & 4 \\\hline
+    $\frac{1}{2}$ & $\frac{1}{4}$ & $\frac{1}{8}$ & $\frac{1}{8}$
+\end{tabular}.
+\end{shaded}
+
+Man kann zeigen, dass eine multinomiale logistische Regression eine Lösung des
+Optimierungsproblems
+\begin{align*}
+\argmax_{p\in M} H(p)
+\end{align*}
+liefert. Deshalb wird die logistische
+Regression auch als MaxEnt bezeichnet.
+
+\section{Naive Bayes Klassifikator}
+\label{sec:naive_bayes_klassifikator}
+
+Ansatz:
+\begin{align*}
+    P(c,x)=\frac{P(c)P(x\mid c)}{P(x)}
+\end{align*}
+Klassifikationsregel:
+\begin{align*}
+    \hat c=\argmax\limits_{c\in C} P(c\mid x) \tag{*}\label{eq:klassbayes}
+\end{align*}
+Dabei ist $x=(x_1,x_2,\dots,x_n)$. Wenn die Zufallsvariablen $x_i$ bedingt
+unabhängig gegben $c$ sind, gilt
+\begin{align*}
+    P(x\mid c)=P(x_1,\dots,x_n\mid c)=\prod_i P(x_i\mid c)
+\end{align*}
+so dass sich \cref{eq:klassbayes} vereinfacht zu
+\begin{align*}
+    \hat c= \argmax_{c\in C}p(c)\prod_i P(x_i\mid c)
+\end{align*}
+Die verschiedenen Varianten des Naive bayes unterscheiden sich in der
+Modellierung von $P(x_i\mid c)$ (normalverteilt, multinomialverteilt,
+Bernoulli, etc).
