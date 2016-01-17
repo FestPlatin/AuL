@@ -591,64 +591,61 @@ Idee:
 
 \section{Lineare Regression}
 \label{sec:lineare_regression}
-Der Korrelationskoeffizent ist ein Maß für lineare Abhängigkeit zweier
-Zufallsvariablen.
+Der Korrelationskoeffizient ist ein Maß für lineare Abhängigkeit zweier Zufallsvariablen.
+Er kann Werte zwischen \(−1\) und \(+1\) annehmen.
+Bei einem Wert von \(+1\) (bzw. \(−1\)) besteht ein vollständig positiver (bzw. negativer) linearer Zusammenhang zwischen den betrachteten Merkmalen.
+Wenn der Korrelationskoeffizient den Wert 0 aufweist, hängen die beiden Merkmale überhaupt nicht linear voneinander ab.
 \begin{align*}
-    \varrho = \frac{Cov(x,y)}{\sqrt{Var X Var Y}}
+	\varrho = \frac{Cov(x,y)}{\sqrt{Var X Var Y}}
 \end{align*}
 
-Wir wollen eine abhängige Größe $Y$ als lineare Funktion in den Variablen
-$f_1,\ldots, f_n$ (Features) darstellen.
+Wir wollen eine abhängige Größe \(Y\) als lineare Funktion in den Variablen \(f_1,\ldots, f_n\) (Features) darstellen
+(\(w =\) Gewichtsvektor).
 \begin{align*}
-    y=w_0+\sum\limits_{i=1}^n w_i f_i \qquad w\cdots \text{Gewichtsvektor}
+	y=w_0+\sum\limits_{i=1}^n w_i f_i
 \end{align*}
-Mit $f_0=1$ gilt:
+Mit \(f_0=1\) gilt:
 \begin{align*}
     y=\sum\limits_{i=0}^n w_i\cdot f_i= w \cdot f
 \end{align*}
-Für Trainingsdaten $y^{(i)}, f^{(i)}$ bestimmen wir$w$ so, dass der mittlere
-quadratische Fehler
+Für Trainingsdaten \(y^{(i)}, f^{(i)}\) bestimmen wir \(w\) so, dass der mittlere quadratische Fehler
 \begin{align*}
     \sum\limits_i {(w\cdot f^{(i)}-y^{(i)})}^2
 \end{align*}
-minimiert wird. Eine exakte Lösung ist möglich.
+minimiert wird.
+Eine exakte Lösung ist möglich.
+
 
 \section{Logistische Regression}
 \label{sub:logistische_regression}
-
-Für eine binäre Zielgröße $y$ wollen wir $P(Y=true\mid f)$ bestimmen. Da $w\cdot f$
-jedoch beliebige Werte annehmen kann, betrachten wir den Quotienten (Odds)
+Für eine binäre Zielgröße \(y\) wollen wir \(P(y=true \mid f)\)\footnote{Vereinfachte Notation} bestimmen.
+Da \(w\cdot f\) jedoch beliebige Werte annehmen kann, betrachten wir den Quotienten (Odds)
 \begin{align*}
-    \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)}
+	\frac{P(y=true\mid f)}{1-P(y=true\mid f)}
 \end{align*}
 Dieser nimmt Werte $\geq 0$ an. Ansatz daher:
 \begin{align}
-    \ln \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)} = w\cdot f. \tag{1}\label{eq:one}
+\ln \frac{P(y=true\mid f)}{1-P(y=true\mid f)} = w\cdot f. \tag{1}\label{eq:one}
 \end{align}
 Damit folgt:
 \begin{align*}
-    \ln \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)} &= w\cdot f\\
-    \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)} &= e^{w\cdot f}\\
-    P(Y=true\mid f) &=e^{w\cdot f}\cdot (1-P(y=true\mid f))\\
-    P(Y=true\mid f) &=e^{w\cdot f} - e^{w\cdot f}P(y=true\mid f)\\
-    P(Y=true\mid f) + e^{w\cdot f}P(y=true\mid f)&=e^{w\cdot f} \\
-    P(Y=true\mid f)\cdot (1+ e^{w\cdot f}) &=e^{w\cdot f} \\
-    P(Y=true\mid f) &=\frac{e^{w\cdot f}}{1+ e^{w\cdot f}} \\
-    P(Y=true\mid f) &=\frac{1}{1+ e^{-w\cdot f}} \tag{2}\label{eq:two}
+	\ln \frac{P(y=true\mid f)}{1-P(y=true\mid f)} &= w\cdot f\\
+	\frac{P(y=true\mid f)}{1-P(y=true\mid f)} &= e^{w\cdot f}\\
+	P(y=true\mid f) &=e^{w\cdot f}\cdot (1-P(y=true\mid f))\\
+	P(y=true\mid f) &=e^{w\cdot f} - e^{w\cdot f}P(y=true\mid f)\\
+	P(y=true\mid f) + e^{w\cdot f}P(y=true\mid f)&=e^{w\cdot f} \\
+	P(y=true\mid f)\cdot (1+ e^{w\cdot f}) &=e^{w\cdot f} \\
+	P(y=true\mid f) &=\frac{e^{w\cdot f}}{1+ e^{w\cdot f}} \\
+	P(y=true\mid f) &=\frac{1}{1+ e^{-w\cdot f}} \tag{2}\label{eq:two}
 \end{align*}
-Die Funktion
-\begin{align*}
-x\mapsto \frac{1}{1+e^{-x}}
-\end{align*}
-heißt logistische Funktion.
-
+Die Funktion \(x\mapsto \frac{1}{1+e^{-x}}\) heißt logistische Funktion.
 Zur Klassifikation einer Beobachtung $f$ verwenden wir den Ansatz
 \begin{align*}
-    P(Y=true \mid f)> P(Y=false \mid f)
+	P(y=true \mid f)> P(y=false \mid f)
 \end{align*}
 und damit
 \begin{align*}
-    \frac{P(Y=true\mid f)}{1-P(Y=true\mid f)} > 1
+	\frac{P(y=true\mid f)}{1-P(y=true\mid f)} > 1
 \end{align*}
 Mit \cref{eq:one} erhalten wir daraus
 \begin{align*}
@@ -661,32 +658,31 @@ $w\cdot f=0$ ist die Gleichung einer Hyperebene.
 
 Zum lernen der Gewichte verwenden wir einen ML-Ansatz
 \begin{align*}
-    \hat w & = \arg\max_w \prod\limits_i P(Y=y^{(i)}\mid f^{(i)})\\
-    \hat w & = \arg\max_w \sum\limits_i \log P(Y=y^{(i)}\mid f^{(i)})\\
-    \hat w & = \arg\max_w \left(\sum\limits_i y^{(i)}\log P(Y=1\mid
-        f^{(i)}) + \sum\limits_i (1-y^{(i)})\log P(Y=0\mid f^{(i)})\right)\\
+    \hat w & = \arg\max_w \prod\limits_i P(y=y^{(i)}\mid f^{(i)})\\
+    \hat w & = \arg\max_w \sum\limits_i \log P(y=y^{(i)}\mid f^{(i)})\\
+    \hat w & = \arg\max_w \left(\sum\limits_i y^{(i)}\log P(y=1\mid
+        f^{(i)}) + \sum\limits_i (1-y^{(i)})\log P(y=0\mid f^{(i)})\right)\\
     \hat w & = \arg\max_w \left(\sum\limits_i y^{(i)} \log
     \left(\frac{1}{1+e^{-wf}}\right)+
     \sum\limits_i (1-y^{(i)}) \log \left(\frac{e^{-wf}}{1+e^{-wf}}\right)\right)
 \end{align*}
-Um diese Gleichung zu lösen werden numerische Verfahren (konvexe Optimierung)
-verwendet.
+Um diese Gleichung zu lösen werden numerische Verfahren (konvexe Optimierung) verwendet.
+
 
 \section{Multinomiale logistische Regression}
 \label{sec:multinomiale_logistische_regression}
-
 Wir verallgemeinern die logistische Regression auf eine Menge von Klassen $C$.
-Mit dem Spezialfall $C={true,false}$ haben wir ermittelt
-\begin{align*}
-    P(y=true\mid
-    x)&=\frac{1}{1+e^{-wf}}=\frac{e^{wf}}{1+e^{wf}} &=\frac{1}{z}e^{wf}\\
-    P(y=false\mid
-    x)&=\frac{1}{1+e^{wf}} &=\frac{1}{z}e^{0}\\
-\end{align*}
+Mit dem Spezialfall \(C=\{true,false\}\) haben wir ermittelt
+\begin{equation*}
+	\begin{aligned}
+		P(y=true\mid x) &=\frac{1}{1+e^{-wf}}	&=\frac{e^{wf}}{1+e^{wf}} 	&=\frac{1}{z}e^{wf}\\
+		P(y=false\mid x)&=\frac{1}{1+e^{wf}} 	&							&=\frac{1}{z}e^{0}\\
+	\end{aligned}
+\end{equation*}
 Mit $w_{true} = w,\; w_{false}=0$ lässt sich dies schreiben als
 \begin{align*}
-    P(Y=true\mid x)=\frac{1}{z}e^{w_{true}f},\; P(Y=false\mid
-    x)=\frac{1}{z}e^{w_{false}f}.
+    P(Y=true\mid x)=\frac{1}{z}e^{w_{\text{true}}f}\\
+    P(Y=false\mid x)=\frac{1}{z}e^{w_{\text{false}}f}.
 \end{align*}
 Ferner ist
 \begin{align*}
@@ -703,34 +699,32 @@ Zur Klassifikation verwenden wir
     \hat c =\argmax_{c\in C}(P(c\mid x))
 \end{align*}
 
+
 \subsubsection{Softmax-Funktion}
 \label{ssub:softmax_funktion}
-
 Die Softmax-Funktion ist
 \begin{align*}
     \softmax(c,C)= \frac{e^{x_c}}{\sum\limits_{c\in C}e^{x_c}}
 \end{align*}
-\paragraph{Es gilt:}
-\label{par:es_gilt_}
-$0 < \softmax < 1$
-
-Für $x_c \ll \max\{x_c\mid c\in C\}$ gilt $\softmax \approx 0$.
-
-Für $x_c \ll x_{c'},$ für $c' \neq c$ ist $\softmax \approx 1$.
-
-Für Werte $x_c$, die nicht zu dicht zusammen liegen gilt
+Es gilt: \label{par:es_gilt_}
+\begin{itemize}
+	\item $0 < \softmax < 1$
+	\item Für $x_c \ll \max\{x_c\mid c\in C\}$ gilt $\softmax \approx 0$.
+	\item Für $x_c \ll x_{c'},$ für $c' \neq c$ ist $\softmax \approx 1$.
+\end{itemize}
+Für Werte \(x_c\), die nicht zu dicht zusammen liegen gilt
 \begin{align*}
 \softmax(c,C)
 \approx \begin{cases}1,& \text{ für }c=\argmax\{x_c\mid c\in C\}\\
 0, & \text{ sonst }\end{cases}
 \end{align*}
 Die softmax Funktion ist differenzierbar.
-
 Die Klassifikationswahrscheinlichkeiten lassen sich damit schreiben als
 \begin{align*}
     P(c\mid x)=\softmax(c,\{w_c\cdot f \mid c\in C\})
     \tag{*}\label{eq:softmax}
 \end{align*}
+
 
 \begin{shaded}
 \paragraph{Übung}
@@ -753,9 +747,9 @@ Die Klassifikationswahrscheinlichkeiten lassen sich damit schreiben als
         \end{align*}
 \end{enumerate}
 \end{shaded}
-Wegen \cref{eq:u2} können wir in \cref{eq:softmax} daher ein Gewicht auf 0
-setzen $w_{c'}=w_c-w_{c^*}$ für ein beliebiges $c^*\in C$. Damit sind nur noch
-$|C|-1$ Gewichte zu lernen. Damit
+Wegen \cref{eq:u2} können wir in \cref{eq:softmax} daher ein Gewicht auf 0 setzen, durch \(w_{c'} = w_c-w_{c^*}\) für ein beliebiges $c^*\in C$.
+Damit sind nur noch \(|C|-1\) Gewichte zu lernen.
+Damit
 \begin{align*}
     P(c\mid x)=\frac{e^{w_{c'}}f}{1+\sum\limits_{c\neq c^*}e^{x_c}f}.
 \end{align*}
@@ -790,31 +784,30 @@ maximaler Entropie.
 \begin{shaded}
 \paragraph{Beispiel}
 \label{par:beispielme}
-Wir wissen, dass eine Zufallsvariable $X$ die Werte 1,2,3,4 annimmt. Ein
-MaxEnt-Modell dazu ist die Gleichverteilung auf \{1,2,3,4\}. Wenn nun
-zusätzlich bekannt ist, dass $P(X=1)=\frac{1}{2}$, erhalten wir als
-MaxEnt-Modell \begin{tabular}[t]{cccc}
-    1 & 2 & 3 & 4 \\\hline
-    $\frac{1}{2}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$
-\end{tabular}.
+Wir wissen, dass eine Zufallsvariable $X$ die Werte 1,2,3,4 annimmt.
+Ein MaxEnt-Modell dazu ist die Gleichverteilung auf \{1,2,3,4\}.
+Wenn nun zusätzlich bekannt ist, dass $P(X=1)=\frac{1}{2}$, erhalten wir als MaxEnt-Modell
+\begin{tabular}[t]{cccc}
+	1 & 2 & 3 & 4 \\\hline
+	$\frac{1}{2}$ & $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$
+\end{tabular}
 Sei ferner $P(X=3 \lor X=4)=\frac{1}{4}$ bekannt:
 \begin{tabular}[t]{cccc}
-    1 & 2 & 3 & 4 \\\hline
-    $\frac{1}{2}$ & $\frac{1}{4}$ & $\frac{1}{8}$ & $\frac{1}{8}$
-\end{tabular}.
+	1 & 2 & 3 & 4 \\\hline
+		$\frac{1}{2}$ & $\frac{1}{4}$ & $\frac{1}{8}$ & $\frac{1}{8}$
+\end{tabular}
 \end{shaded}
 
-Man kann zeigen, dass eine multinomiale logistische Regression eine Lösung des
-Optimierungsproblems
+Man kann zeigen, dass eine multinomiale logistische Regression eine Lösung des Optimierungsproblems
 \begin{align*}
 \argmax_{p\in M} H(p)
 \end{align*}
-liefert. Deshalb wird die logistische
-Regression auch als MaxEnt bezeichnet.
+liefert.
+Deshalb wird die logistische Regression auch als MaxEnt bezeichnet.
+
 
 \section{Naive Bayes Klassifikator}
 \label{sec:naive_bayes_klassifikator}
-
 Ansatz:
 \begin{align*}
     P(c,x)=\frac{P(c)P(x\mid c)}{P(x)}
@@ -823,8 +816,8 @@ Klassifikationsregel:
 \begin{align*}
     \hat c=\argmax\limits_{c\in C} P(c\mid x) \tag{*}\label{eq:klassbayes}
 \end{align*}
-Dabei ist $x=(x_1,x_2,\dots,x_n)$. Wenn die Zufallsvariablen $x_i$ bedingt
-unabhängig gegben $c$ sind, gilt
+Dabei ist $x=(x_1,x_2,\dots,x_n)$.
+Wenn die Zufallsvariablen $x_i$ bedingt unabhängig gegben \(c\) sind, gilt
 \begin{align*}
     P(x\mid c)=P(x_1,\dots,x_n\mid c)=\prod_i P(x_i\mid c)
 \end{align*}
@@ -832,6 +825,4 @@ so dass sich \cref{eq:klassbayes} vereinfacht zu
 \begin{align*}
     \hat c= \argmax_{c\in C}p(c)\prod_i P(x_i\mid c)
 \end{align*}
-Die verschiedenen Varianten des Naive bayes unterscheiden sich in der
-Modellierung von $P(x_i\mid c)$ (normalverteilt, multinomialverteilt,
-Bernoulli, etc).
+Die verschiedenen Varianten des Naive bayes unterscheiden sich in der Modellierung von $P(x_i\mid c)$ (normalverteilt, multinomialverteilt, Bernoulli, etc).
