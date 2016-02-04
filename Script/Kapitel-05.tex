@@ -1,9 +1,10 @@
 \chapter{Datenkompression}
 \section{Huffman Codierung}
-\subsubsection{Idee:}
+
+\paragraph{Idee:}
 Häufige Zeichen erhalten kurze Codewörter, seltene Zeichen längere Codewörter.
 Gesucht ist ein Code, so dass die mittlere Codewortlänge minimal ist.
-\subsubsection{Problem:}
+\paragraph{Problem:}
 Die Codierung muss eindeutig decodierbar sein.
 
 \begin{shaded}
@@ -11,7 +12,7 @@ Die Codierung muss eindeutig decodierbar sein.
   \textbf{Def.:} Ein Präfixcode ist ein Code, bei dem kein Codewort Präfix eines anderen Codewortes ist.
 \end{shaded}
 
-\subsubsection{Beispiel}
+\paragraph{Beispiel:}
 \begin{center}
 	\begin{tabular}{lcccccc}
 		Zeichen & a & b & c & d & e & f\\
@@ -21,6 +22,7 @@ Die Codierung muss eindeutig decodierbar sein.
 \end{center}
 Dieser Code ist optimal.
 In Abbildung \ref{fig:HuffmanTree} ist der Code als Codewortbaum dargestellt.
+Der Huffman-Algorithmus ist ein Greedy-Algorithmus (wählt den nächsten Schritt nach der besten Wahrscheinlichkeit) der einen optimalen Präfix-Code konstruiert.
 \begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}[sibling distance=5mm]
@@ -56,7 +58,7 @@ In Abbildung \ref{fig:HuffmanTree} ist der Code als Codewortbaum dargestellt.
 	\caption{Die Folge 1001010 lässt sich eindeutig decodieren zu cba}
 	\label{fig:HuffmanTree}
 \end{figure}
-Der Huffman-Algorithmus ist ein Greedy-Algorithmus (wählt den nächsten Schritt nach der besten Wahrscheinlichkeit) der einen optimalen Präfix-Code konstruiert.
+
 
 \subsection{Implementierung}
 \begin{lstlisting}[language=java]
@@ -67,7 +69,7 @@ while (mehr als ein Baum vorhanden)
 	Wahrscheinlichkeiten zu einem neuen Baum,
 	die Wahrscheinlichkeiteb addieren sich.
 \end{lstlisting}
-Ein effizente Implentierung verwendet einen Min-Heap.
+Eine effizente Implentierung verwendet einen Min-Heap.
 Die Laufzeit beträgt daher:
 \begin{itemize}
 	\item Heap initialisieren: \(\mathcal{O}(n)\)
