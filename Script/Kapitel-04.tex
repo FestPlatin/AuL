@@ -46,11 +46,13 @@ Ein Knoten \(v\) hat den Grad \(k\) wenn \(v\) mit genau \(k\) anderen Knoten ve
 Wir schreiben dafür \(\deg(u) = k\).
 
 \begin{shaded}
-  \noindent
-  \textbf{Satz:} Die Laufzeit der Breitensuche liegt in \(\mathcal{O}(|V|+|E|)\).
-\end{shaded}
-Beweis:
+	\noindent
+	\textbf{Satz:} Die Laufzeit der Breitensuche liegt in \(\mathcal{O}(|V|+|E|)\).
 
+	Dabei ist \(|V|\) die Anzahl der Knoten (Vertex) und \(|E|\) die Anzahl der Kanten (Edge) im Graphen.
+\end{shaded}
+
+\paragraph{Beweis:}
 Das initialisieren des Feldes discovered benötigt die Zeit \(\mathcal{O}(|V|)\).
 Um die unbesuchten Nachbarn des Knotens \(u\) zu bestimmen fällt der Aufwand \(\mathcal{O}(\deg(u))\) an.
 Da jeder Knoten höchstens einmal aus der Warteschlange entnommen wird, wird auch die while Schleife für jeden Knoten höchstens einmal durchlaufen.
@@ -126,7 +128,7 @@ Wie kann die schnellste Route von A nach B gefunden werden?
 Jeder vollständige Graph oder Kreis lässt sich nicht topologisch sortieren.
 Eine topologische Sortierung kann durch eine Tiefensuche bestimmt werden.
 \newpage
-\begin{lstlisting}[language=java]
+\begin{lstlisting}[language=java,caption={Pseudocode für eine topologische Sortierung}]
 topsort:
 	for (v in V)
 		markiere v mit weiss
@@ -144,13 +146,12 @@ tiefensuche(v):
 		fuege v an den Kopf einer Liste
 \end{lstlisting}
 
-
 \begin{shaded}
-  \noindent
-  \textbf{Satz:} Für jeden DAG \(G=(V,E)\) erzeugt Topsort eine topologische Sortierung von \(G\).
+	\noindent
+	\textbf{Satz:} Für jeden DAG \(G=(V,E)\) erzeugt Topsort eine topologische Sortierung von \(G\)
 \end{shaded}
 
-\subsubsection{Beweis}
+\paragraph{Beweis:}
 Sei \((u,v) \in E\).
 In u und in v werden je eine Tiefensuche gestartet.
 Die in v gestartete Tiefensuche endet früher als die in u gestartete Tiefensuche.
