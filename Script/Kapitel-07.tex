@@ -26,7 +26,7 @@ Damit lassen sich modellieren:
 \subsection{Hidden Markov Model (HMM)}
 \begin{shaded}
   \noindent
-  \textbf{Def.:} Ein HHM ist eine Markov-Kette, die in jeden Zustand z ein Zeichen a ausgibt mit der Wahrscheinlichkeit \(q_z(a)\).
+  \textbf{Def.:} Ein HMM ist eine Markov-Kette, die in jeden Zustand z ein Zeichen a ausgibt mit der Wahrscheinlichkeit \(q_z(a)\).
 \end{shaded}
 \begin{figure}[htbp]
 	\centering
@@ -57,7 +57,7 @@ Mit HMM können modelliert werden z.B.:
 		Ausgegebene Zeichen: Jeweils A,C,T,G
 	\item Nachrichtenübertragung\\
 		Markov-Kette, die Texte modelliert\\
-		In einem Zustand z wird das Zeichen z ausgegeben mit großer Wahrscheinlichkeit (z.B. 0,95), andere Zeichen mit geringer W'keit.
+		In einem Zustand z wird das Zeichen z ausgegeben mit großer Wahrscheinlichkeit (z.B. 0,95), andere Zeichen mit geringer Wahrscheinlichkeiten.
 	\item Spracherkennung\\
 		Vorgehen: Audio-Signal $\to$ FFT $\to$ Phoneme $\to$ Wort\\
 		Zustände: Phoneme, die der Sprecher gesprochen hat.\\
@@ -138,7 +138,7 @@ Die Laufzeit beträgt \(\underbrace{\mathcal{O}(|Z| \cdot n)}_{\text{Größe der
 			(z') edge [above] node {P(z',z)} (z)
 			(z)	 edge [right] node {\(q_z(a_k)\)} (ak);
 	\end{tikzpicture}
-    \caption{Verdeutlichung des Viterbi-Algorithmusses.}
+    \caption{Verdeutlichung des Viterbi-Algorithmus.}
     \label{fig:viterbi}
 \end{figure}
 
@@ -169,7 +169,7 @@ Berechnen Sie die wahrscheinlichste Zustandsfolge die diese Folge erzeugt hat
 				edge [right] node {0,1} (z)
 				edge [right] node {0,9} (k);
 	\end{tikzpicture}
-    \caption{HMM für Beispiel X.}
+    \caption{HMM für das Beispiel}
     \label{fig:hmmbsp}
 \end{figure}
 

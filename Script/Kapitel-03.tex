@@ -337,13 +337,13 @@ Es gilt:
 l(i, S) = \left\{
 	\begin{array}{l l}
 		d_{in} & \quad \text{für } S = \varnothing \text{(keine Zwischenstädte)}\\
-		\min\limits_{j \in S} \{d_{ij} + l(S-\{j\},j)\} & \quad \text{für alle } S \neq \varnothing
+		\min\limits_{j \in S} \{d_{ij} + l(j, S-\{j\})\} & \quad \text{für alle } S \neq \varnothing
   \end{array} \right.
 \end{equation*}
 
-Mit Hilfe dieses Algorithmuses kann eine Matix erstellt werden, in welcher die Länge der Rundwege gepeichert werden.
+Mit Hilfe dieses Algorithmuses kann eine Matrix erstellt werden, in welcher die Länge der Rundwege gepeichert werden.
 In der x-Achse werden die Knoten von 1 bis \(n-1\) eingetragen und in der y-Achse die Teilmengen in aufsteigender Mächtigkeit.
-Dieser besitzt eine Laufzweit von \(\mathcal{O}(2^{n-1} \cdot (n-1)) \cdot \mathcal{O}(n) = \mathcal{O}(n^{2} \cdot 2^{n})\).
+Dieser besitzt eine Laufzeit von \(\mathcal{O}(2^{n-1} \cdot (n-1)) \cdot \mathcal{O}(n) = \mathcal{O}(n^{2} \cdot 2^{n})\).
 Diese wächst langsamer als \(\mathcal{O}(n!)\).
 
 Gegeben sei der nachfolgende Graph mit 4 Städten.

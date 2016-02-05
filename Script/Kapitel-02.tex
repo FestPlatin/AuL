@@ -87,8 +87,8 @@ So gilt bei erfolgloser Suche:
 	&=& \log(n) + V(1) \in \mathcal{O}(\log n)
 \end{eqnarray*}
 
-\subsubsection{Alternative Herrleitung}
-Eine weitere Alternative Herrleitung geht über die Herrleitung einer Schleife:
+\subsubsection{Alternative Herleitung}
+Eine weitere Alternative Herleitung geht über die Herleitung einer Schleife:
 \[ \textrm{Anzahl Schleifendurchläufe} \cdot \textrm{Aufwand pro Schleife} \]
 \[ \mathcal{O}(k) \cdot \mathcal{O}(1) = \mathcal{O}(k) = \mathcal{O}(\log n) \]
 
@@ -116,7 +116,7 @@ Ein Suchbaum ist ein Binärbaum in dem gilt: Jeder in einem Knoten gespeicherte 
 \end{figure}
 Folgende Funktionen sind nötig:
 \begin{description}
-	\item[Suchen nach einem Wert] Das wird der Suchbaum, beginnend an der Wurzel, rekursiv durchgesucht.
+	\item[Suchen nach einem Wert] Dabei wird der Suchbaum, beginnend an der Wurzel, rekursiv durchgesucht.
 		Die Laufzeit liegt bei \(\mathcal{O}(n)\) für einen linear entarteten Baum und \(\mathcal{O}(\log n)\) für einen vollständigen Baum.
 	\item[Wert hinzufügen] Dazu wird der Baum wie oben durchsucht und ein Blatt mit dem neuen Wert hinzugefügt falls der Wert noch nicht vorhanden ist.
 		Die Laufzeit ist gleich der des durchsuchens eines Baumes.
@@ -313,7 +313,7 @@ In jedem Knoten wird ein Vergleich \(a \leq b\) ausgeführt.
 Jedes Blatt entspricht einer sortierten Folge,
 Jede sortierte Folge entspricht einer Permutation der Ausgangsfolge.
 Der Binärbaum besitzt daher \(n!\) Blätter und deshalb einen Pfad der Länge \(\log_{2}n!\).
-Ein Sortierverfahren, dass paarweise Vergleiche ausführt besitzt daher eine Worst-Case Laufzeit in \(\Omega(\log_{2}n!) = \Omega(n\log_{2}n) - \mathcal{O}(n))\).
+Ein Sortierverfahren, dass paarweise Vergleiche ausführt besitzt daher eine Worst-Case Laufzeit in \(\Omega(\log_{2}n!) = \Omega(n\log_{2}n) - \Theta(n))\).
 \begin{figure}[htbp]
 	\begin{center}
 	\tikzstyle{end} = [circle, minimum width=4pt,fill, inner sep=0pt]
